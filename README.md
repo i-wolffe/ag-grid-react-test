@@ -1,2 +1,2 @@
-# ag-grid-react-test
-Experimenting and working on ag-grid for React
+# Working on ag-grid
+Experimenting on ag-grid for React
