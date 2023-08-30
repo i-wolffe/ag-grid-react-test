@@ -5,6 +5,7 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import Form from 'react-bootstrap/Form';
 
 import logo from './images/icon.png';
 
@@ -49,14 +50,14 @@ function App() {
             <div className='Info-container'>
               <p><strong>{getDate()}</strong></p>
               <p>
-                <strong>Grupo: </strong><span id='idCell'><input className='Num-input' placeholder='12'/></span>
+                <strong>Grupo: </strong><Form.Control type="text" placeholder="Grupo" />
                 <span>{" | "}</span>
-                <strong>Area: </strong><span id='idArea'><input className='Num-input' placeholder='12' /></span>
+                <strong>Area: </strong><Form.Control type="text" placeholder="Area" />
               </p>
             </div>
             <div className='Info-container'>
-              <p><strong>Responsable: </strong><span id='resName'>John Doe</span></p>
-              <p><strong>Supervisa: </strong><span id='superName'>Jane Doe</span></p>
+              <p><strong>Responsable: </strong><span id='resName'><Form.Control type="text" placeholder="John Doe" /></span></p>
+              <p><strong>Supervisa: </strong><span id='superName'><Form.Control type="text" placeholder="Jane Doe" /></span></p>
             </div>
           </div>
         </header>

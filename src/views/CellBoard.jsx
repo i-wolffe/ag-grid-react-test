@@ -1,12 +1,21 @@
 import React from 'react'
+import Form from 'react-bootstrap/Form';
 
 export const CellBoard = () => {
   return (
     <div className="Content-container">
       <div className="Action-container">
-        <span>Modelo: <i className="Active-model">%MODELO%</i></span>
-        <span>Pzas x hora: <span className="Target-prod">%NUM%</span></span>
-        <span>Num. Operadores <span className="Target-time">%NUM%</span></span>
+        <span>
+          Modelo:
+          <Form.Select aria-label="Default select"  placeholder="Motivo">
+            <option>Seleccionar modelo</option>
+            <option value="1"><span>370952E</span></option>
+            <option value="2">388898B</option>
+            <option value="3">15-2F14</option>
+          </Form.Select>
+        </span>
+        <span>Pzas x hora: <Form.Control disabled type="text" placeholder="Pzas." /></span>
+        <span>Num. Operadores: <Form.Control disabled type="text" placeholder="N.Ops." /></span>
         <span>
           <button className="Action-button" type="button" id="btn-clear">Vaciar</button>
           <button className="Action-button" type="button" id="btn-export">Exportar</button>
@@ -31,44 +40,73 @@ export const CellBoard = () => {
             <td>1</td>
             <td>06:00 - 07:00</td>
             <td>370952E</td>
-            <td>60</td>
-            <td>60</td>
+            <td>40</td>
+            <td>40</td>
             <td>20</td>
-            <td><input type="text" name="" id="Motivo-1" /></td>
+            <td>
+              <Form.Select aria-label="Default select" type="text" placeholder="Motivo">
+                <option>Selecciona una opción</option>
+                <option value="1">MF - Motivo Fuera</option>
+                <option value="2">MR - Mantenimiento Robot</option>
+                <option value="3">CM - Comedor</option>
+              </Form.Select>
+            </td>
             <td>OK?</td>
-            <td><input type="text" name="" id="Firma-1" /></td>
+            <td><Form.Control className="Firm" type="text" placeholder="Firma" /></td>
           </tr>
           <tr>
             <td>2</td>
             <td>07:00 - 08:00</td>
             <td>370952E</td>
-            <td>60</td>
-            <td>60</td>
-            <td>20</td>
-            <td><input type="text" name="" id="Motivo-1" /></td>
+            <td>30</td>
+            <td>70</td>
+            <td>30</td>
+            <td>
+              <Form.Select aria-label="Default select" type="text" placeholder="Motivo">
+                <option>Selecciona una opción</option>
+                <option value="1">MF - Motivo Fuera</option>
+                <option value="2">MR - Mantenimiento Robot</option>
+                <option value="3">CM - Comedor</option>  
+              </Form.Select>
+            </td>
             <td>OK?</td>
-            <td><input type="text" name="" id="Firma-1" /></td>
+            <td><Form.Control className="Firm" type="text" placeholder="Firma" /></td>
           </tr>
           <tr>
             <td>3</td>
             <td>08:00 - 09:00</td>
             <td>370952E</td>
             <td>60</td>
-            <td>60</td>
-            <td>20</td>
-            <td><input type="text" name="" id="Motivo-1" /></td>
+            <td>130</td>
+            <td>00</td>
+            <td>
+              <Form.Select aria-label="Default select" type="text" placeholder="Motivo">
+                <option>Selecciona una opción</option>
+                <option value="1">MF - Motivo Fuera</option>
+                <option value="2">MR - Mantenimiento Robot</option>
+                <option value="3">CM - Comedor</option>  
+              </Form.Select>
+            </td>
             <td>OK?</td>
-            <td><input type="text" name="" id="Firma-1" /></td>
+            <td><Form.Control className="Firm" type="text" placeholder="Firma" /></td>
           </tr>
           <tr>
-            <td>Jane Smith</td>
-            <td>25</td>
-            <td>Accountant</td>
-          </tr>
-          <tr>
-            <td>Bill Jones</td>
-            <td>40</td>
-            <td>Doctor</td>
+            <td>4</td>
+            <td>09:00 - 10:00</td>
+            <td>370952E</td>
+            <td>50</td>
+            <td>180</td>
+            <td>10</td>
+            <td>
+              <Form.Select aria-label="Default select" type="text" placeholder="Motivo">
+                <option>Selecciona una opción</option>
+                <option value="1">MF - Motivo Fuera</option>
+                <option value="2">MR - Mantenimiento Robot</option>
+                <option value="3">CM - Comedor</option>  
+              </Form.Select>
+            </td>
+            <td>OK?</td>
+            <td><Form.Control className="Firm" type="text" placeholder="Firma" /></td>
           </tr>
         </tbody>
       </table>

@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  color: aliceblue;
   background-color: #43474e;
   min-height: 100vh;
 }
@@ -109,5 +110,31 @@
   background-color: rgba(200, 200, 200, 0.4);
 }
 
+/**************************************************/
+
+p > span > input {
+  width: 7rem !important;
+}
+p > input, span > input {
+  width: 3rem !important;
+  
+}
+
+input,select {
+  background-color: #282c34;
+  border: 2px inset #2f3135;
+  color: white;
+  border-radius: 4px;
+  padding:0.1rem;
+}
+
+input.Firm {
+  padding:0.5rem !important;
+  width: 7rem;
+}
+
+tr > * {
+  padding: 1vw;
+}
 
 /**************************************************/
