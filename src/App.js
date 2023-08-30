@@ -12,6 +12,7 @@ import { Home } from './views/Home';
 import { Manager } from './views/Manager';
 import { CellBoard } from './views/CellBoard';
 import { AutoBoard } from './views/AutoBoard';
+import { Register } from './views/Register';
 
 function App() {
   let getDate = () => {
@@ -40,14 +41,17 @@ function App() {
             <div className='App-link'>
               <Link onClick={() => active(2)} to='/manager'>Manager</Link>
             </div>
+            <div className='App-link'>
+              <Link onClick={() => active(3)} to='/register'>Registrar</Link>
+            </div>
           </nav>
           <div className='App-info'>
             <div className='Info-container'>
               <p><strong>{getDate()}</strong></p>
               <p>
-                <strong>Grupo: </strong><span id='idCell'>%CELL%</span>
+                <strong>Grupo: </strong><span id='idCell'><input className='Num-input' placeholder='12'/></span>
                 <span>{" | "}</span>
-                <strong>Area: </strong><span id='idArea'>%CELL%</span>
+                <strong>Area: </strong><span id='idArea'><input className='Num-input' placeholder='12' /></span>
               </p>
             </div>
             <div className='Info-container'>
@@ -57,14 +61,11 @@ function App() {
           </div>
         </header>
         <Routes>
-          <Route path='/' element={ <Home/> }>
-          </Route>
-          <Route path='/cell-board' element={ <CellBoard/> }>
-          </Route>
-          <Route path='/auto-board' element={ <AutoBoard/> }>
-          </Route>
-          <Route path='/manager' element={ <Manager/> }>
-          </Route>
+          <Route path='/' element={ <Home/> } />
+          <Route path='/cell-board' element={ <CellBoard/> }/>
+          <Route path='/auto-board' element={ <AutoBoard/> }/>
+          <Route path='/manager' element={ <Manager/> }/>
+          <Route path='/register' element={ <Register/> }/>
         </Routes>
       </div>
     </Router>
