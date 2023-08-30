@@ -10,6 +10,8 @@ import logo from './images/icon.png';
 
 import { Home } from './views/Home';
 import { Manager } from './views/Manager';
+import { CellBoard } from './views/CellBoard';
+import { AutoBoard } from './views/AutoBoard';
 
 function App() {
   let getDate = () => {
@@ -30,10 +32,13 @@ function App() {
               </Link>
             </div>
             <div className='App-link'>
-              <Link onClick={() => active(0)} to='/'>Home</Link>
+              <Link onClick={() => active(0)} to='/cell-board'>Celda</Link>
             </div>
             <div className='App-link'>
-              <Link onClick={() => active(1)} to='/manager'>Manage</Link>
+              <Link onClick={() => active(1)} to='/auto-board'>Autoclave</Link>
+            </div>
+            <div className='App-link'>
+              <Link onClick={() => active(2)} to='/manager'>Manager</Link>
             </div>
           </nav>
           <div className='App-info'>
@@ -53,6 +58,10 @@ function App() {
         </header>
         <Routes>
           <Route path='/' element={ <Home/> }>
+          </Route>
+          <Route path='/cell-board' element={ <CellBoard/> }>
+          </Route>
+          <Route path='/auto-board' element={ <AutoBoard/> }>
           </Route>
           <Route path='/manager' element={ <Manager/> }>
           </Route>
