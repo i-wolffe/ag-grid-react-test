@@ -1,8 +1,24 @@
+
+:root {
+  --blue: #00F;
+  --bg-l: #43474e;
+  --bg-d: #282c34;
+  --liner: rgba(75, 75, 77, 0.4);
+  --accent: #AAAAAA;
+  --clr: #6bdfee;
+}
+
+a {
+  text-decoration: none !important;
+}
+
 .App {
   text-align: center;
   color: aliceblue;
   background-color: #43474e;
   min-height: 100vh;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 .App-logo {
@@ -64,6 +80,24 @@
 
 /**************************************************/
 
+.d-flex {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.d-flex-r {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+/**************************************************/
+
 .Content-container {
   min-height: 50vh;
   padding: 1rem;
@@ -109,6 +143,139 @@
   -moz-box-shadow: 1px 1px 10px 1px rgba(20,20,20,0.75);
   box-shadow: 1px 1px 10px 1px rgba(20,20,20,0.75);
   background-color: rgba(200, 200, 200, 0.4);
+}
+
+.Card-container {
+  width: 100%;
+  margin: 1rem;
+  padding: 0.5rem 0rem;
+  justify-content: space-around;
+}
+
+.Login-bar {
+  width: 100%;
+  padding: 1rem;
+  padding-bottom: 0px;
+  margin-top: 0.5rem;
+  justify-content: flex-end;
+}
+.Login-bar > * {
+  margin: 0.5rem 1rem;
+}
+
+.Login-button {
+  border: 2px outset #555555;
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  font-size: large;
+  font-weight: 700;
+  outline: none;
+}
+.Login-button:hover {
+  background-color: rgba(200, 200, 200, 0.4);
+  transform: scale(1.05);
+  transition: 0.2s;
+  cursor: pointer;
+}
+.Login-button:active {
+  background-color: rgba(200, 200, 200, 0.2);
+  border: 2px solid rgba(2, 3, 44, 0.945);
+  transition: 0.2s;
+}
+
+/**************************************************/
+
+.Action-card {
+  background-color: #464E4F;
+  min-width: 23vw;
+  padding: 2rem 1rem;
+  margin: 0.5rem 0rem;
+  border-radius: 14px;
+  -webkit-box-shadow: 5px 5px 17px 3px rgba(51,51,51,0.85);
+  -moz-box-shadow: 5px 5px 17px 3px rgba(51,51,51,0.85);
+  box-shadow: 5px 5px 17px 3px rgba(51,51,51,0.85);
+}
+
+.Action-card:hover {
+  transform: scale(1.05);
+  transition: all 200ms linear;
+  -webkit-box-shadow: 2px 2px 15px 8px rgba(51,51,51,0.85);
+  -moz-box-shadow: 2px 2px 15px 8px rgba(51,51,51,0.85);
+  box-shadow: 2px 2px 15px 8px rgba(51,51,51,0.85);
+}
+
+.Card-cta {
+  padding-top: 1rem;
+  border-top: solid;
+  width: 60%;
+  margin: auto;
+}
+
+.Cta-button {
+  cursor: pointer;
+  font-size: larger;
+  font-weight: 200;
+  padding: 0.5rem 1.5rem;
+  
+  color: white;
+  background: transparent;
+  border: 2px solid var(--clr);
+  border-radius: 4px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  z-index: 1;
+
+  transition: all 300ms linear;
+}
+
+.Cta-button::after {
+  content: '';
+  position: absolute;
+  width: 12rem;
+  height: 12rem;
+  top: 50%;
+  left: 50%;
+  background: var(--clr);
+  border-radius: 50%;
+  opacity: 0;
+  z-index: -1;
+
+  transform: translate(-50%, -50%) scale(0.5);
+  transition: all 300ms linear;
+}
+
+.Cta-button:hover {
+  color: white !important;
+  
+  transform: scale(1.05);
+  transition: 300ms;
+}
+
+.Cta-button:hover::after {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 0.2;
+}
+
+.Card-body {
+  width: 100%;
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Btn-icon {
+  margin-left: 5px;
+  display: flex;
+}
+
+.my-icon {
+  font-size: 8vw;
+  overflow: hidden;
 }
 
 /**************************************************/

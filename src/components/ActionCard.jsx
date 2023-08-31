@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export const ActionCard = ({children, ...props}) => {
   return (<div className="Action-card d-flex">
@@ -6,7 +7,7 @@ export const ActionCard = ({children, ...props}) => {
       {/* <h2>{props.title}</h2> */}
       {children[0]}
     </div>
-    <div className="Card-icon">
+    <div className="Card-icon d-flex">
       <span className="my-icon">
         {children[1]}
       </span>
@@ -16,14 +17,16 @@ export const ActionCard = ({children, ...props}) => {
         <p>Lorem ipsum dolor sit amet.</p>
       </div>
       <div className="Card-cta">{/* Call to Action. Bind to parent? */}
-        <button type="button">
-          <span className="Btn-icon">
-            icon
-          </span>
-          <span className="Btn-text">
-            Go!
-          </span>
-        </button>
+        <Link to={props.to}>
+          <button type="button" className="Cta-button">
+            <span className="Btn-text">
+              Continuar
+            </span>
+            <span className="Btn-icon">
+            {children[2]}
+            </span>
+          </button>
+        </Link>
       </div>
     </div>
   </div>);

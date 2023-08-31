@@ -66,7 +66,7 @@ function App() {
           <Route path='/cell-board' element={ <CellBoard/> }/>
           <Route path='/auto-board' element={ <AutoBoard/> }/>
           <Route path='/manager' element={ <Manager/> }/>
-          <Route path='/register' element={ <Register/> }/>
+          <Route path='/register/:type?/:method?/:id?' element={ <Register/> }/>
         </Routes>
       </div>
     </Router>
