@@ -20,13 +20,19 @@ export class CellBoard extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      SelectedCell: '',
-      SelectedArea: '',
-      AreaData: [],
-      CellsData: [],
-      CellInfo: []
+      CellInfo: [],
+      CellData: []
     }
   } 
+  componentDidMount() {
+    // Add query to DB
+  }
+  triggerScan(e) {
+    // Write from Scanner on the selected input and then block it? REMEMBER Scanner ends with ENTER -> check ASCII
+  }
+  updateText(e){
+    // Each keystroke perhaps? maybe unnecessary if it will have the scanner
+  }
   render() {
     return (
       <div className="Content-container">
@@ -35,7 +41,7 @@ export class CellBoard extends Component {
             Modelo:
             <Form.Select aria-label="Default select"  placeholder="Motivo">
               <option>Seleccionar modelo</option>
-              <option value="1"><span>370952E</span></option>
+              <option value="1">370952E</option>
               <option value="2">388898B</option>
               <option value="3">15-2F14</option>
             </Form.Select>
