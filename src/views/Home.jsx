@@ -24,7 +24,6 @@ export const Home = (props) => {
         }
         </span>
       </div>
-      
       <div className="Card-container d-flex-r">
           <ActionCard to="/register/cell/add">
             <h2>Registro de Celdas</h2>
