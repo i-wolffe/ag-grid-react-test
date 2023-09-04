@@ -1,10 +1,13 @@
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Link
 } from "react-router-dom";
+
 import Form from 'react-bootstrap/Form';
 
 import logo from './images/icon.png';
@@ -14,6 +17,7 @@ import { Manager } from './views/Manager';
 import { CellBoard } from './views/CellBoard';
 import { AutoBoard } from './views/AutoBoard';
 import { Register } from './views/Register';
+import { NavBar } from './components/NavBar';
 
 function App() {
   let getDate = () => {
@@ -27,37 +31,17 @@ function App() {
     <Router>
       <div className="App">
         <header className="App-header">
-          <nav className="App-nav">
-            <div className='App-logo'>
-              <Link to='/'>
-                <img src={logo} className="Image-logo" alt="logo" />
-              </Link>
-            </div>
-            <div className='App-link'>
-              <Link onClick={() => active(0)} to='/cell-board'>Celda</Link>
-            </div>
-            <div className='App-link'>
-              <Link onClick={() => active(1)} to='/auto-board'>Autoclave</Link>
-            </div>
-            <div className='App-link'>
-              <Link onClick={() => active(2)} to='/manager'>Manager</Link>
-            </div>
-            <div className='App-link'>
-              <Link onClick={() => active(3)} to='/register'>Registrar</Link>
-            </div>
-          </nav>
+          <NavBar />
           <div className='App-info'>
             <div className='Info-container'>
-              <p><strong>{getDate()}</strong></p>
-              <p>
+              <p className='Info-field'>
                 <strong>Grupo: </strong><Form.Control type="text" placeholder="Grupo" />
-                <span>{" | "}</span>
                 <strong>Area: </strong><Form.Control type="text" placeholder="Area" />
               </p>
             </div>
             <div className='Info-container'>
-              <p><strong>Responsable: </strong><span id='resName'><Form.Control type="text" placeholder="John Doe" /></span></p>
-              <p><strong>Supervisa: </strong><span id='superName'><Form.Control type="text" placeholder="Jane Doe" /></span></p>
+              <p className='Info-field'><strong>Responsable: </strong><span id='resName'><Form.Control type="text" placeholder="John Doe" /></span></p>
+              {/* <p className='Info-field'><strong>Supervisa: </strong><span id='superName'><Form.Control type="text" placeholder="Jane Doe" /></span></p> */}
             </div>
           </div>
         </header>
