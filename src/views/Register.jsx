@@ -14,16 +14,26 @@ import 'ag-grid-community/styles/ag-theme-alpine.css';
 
 export const Register = (props) => {
   const { type,method,id } = useParams() // register/(cell/auto)/(add/edit)
-  const [validated, setValidated] = useState(false);
+  const [validatedCell, setValidatedCell] = useState(false);
+  const [validatedAuto, setValidatedAuto] = useState(false);
 
-  const handleSubmit = (event) => {
+  const handleSubmitCell = (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
     }
 
-    setValidated(true);
+    setValidatedCell(true);
+  };
+  const handleSubmitAuto = (event) => {
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    setValidatedAuto(true);
   };
   return (
     <div className="Tab-container">
@@ -31,14 +41,14 @@ export const Register = (props) => {
       AGREGAR NUEVOS MODELOS, sus datos y sus Celdas activas */}
       <Tabs
       defaultActiveKey={type || 'cell'}
-      id="uncontrolled-tab-example"
+      id="register-tab-options"
       className="mb-3"
     >
       <Tab eventKey="cell" title="Celda">
         <div className="d-flex-r">
           <div className="Half-content d-flex">
-            <h3>Agregar modelo a Celda</h3>
-            <Form noValidate validated={validated} onSubmit={handleSubmit}>
+            <h4>Agregar modelo a Celda</h4>
+            <Form noValidate validated={validatedCell} onSubmit={handleSubmitCell}>
               <Row>
                 <Form.Group  as={Col} md="6" className='Form-field' controlId='cell-group'>
                   <Form.Label>Grupo de Celda:</Form.Label>
@@ -70,7 +80,7 @@ export const Register = (props) => {
                 <Form.Control 
                   required
                   type='text'
-                  placeholder=''
+                  placeholder='Ex. 33-G-78279912'
                   defaultValue=''
                 />
               <Form.Control.Feedback type="invalid">
@@ -109,14 +119,102 @@ export const Register = (props) => {
             </Form>
           </div>
           <div className="Half-content">
-            <h3>Delete</h3>
+            <h4>Delete</h4>
             AG grid goes here to select from the Query
           </div>
         </div>
       </Tab>
+{/* *************************************************** */}
       <Tab eventKey="auto" title="Autoclave">
-        <div className="d-flex-r">
-          Hello - {method} - {id}
+      <div className="d-flex-r">
+          <div className="Half-content d-flex">
+            <h4>Agregar Autoclave</h4>
+            <Form noValidate validated={validatedAuto} onSubmit={handleSubmitAuto}>
+              <Row>
+                <Form.Group  as={Col} md="4" className='Form-field' controlId='auto-number'>
+                  <Form.Label>Número de Autoclave</Form.Label>
+                  <Form.Control 
+                    required
+                    type='number'
+                    placeholder='Ex. 26'
+                    defaultValue=''
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Por favor ingresa un valor válido
+                  </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group as={Col} md="4" className='Form-field' controlId='auto-area'>
+                  <Form.Label>Area de Autoclave:</Form.Label>
+                  <Form.Control 
+                    required
+                    type='text'
+                    placeholder='Ex. OSHAWA'
+                    defaultValue=''
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Por favor ingresa un valor válido
+                  </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group as={Col} md="4" className='Form-field' controlId='auto-crew'>
+                  <Form.Label>Tripulación:</Form.Label>
+                  <Form.Control 
+                    required
+                    type='number'
+                    placeholder='Ex. 8'
+                    defaultValue=''
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Por favor ingresa un valor válido
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Row>
+              <Row>
+                <Form.Group as={Col} md="4" className='Form-field' controlId='auto-cycles'>
+                  <Form.Label>Ciclos Esperados:</Form.Label>
+                  <Form.Control 
+                    required
+                    type='number'
+                    placeholder='Ex. 12'
+                    defaultValue=''
+                  />
+                <Form.Control.Feedback type="invalid">
+                  Por favor ingresa un valor válido
+                </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group as={Col} md="4" className='Form-field' controlId='auto-cycles-a'>
+                  <Form.Label>Piezas por Ciclo A:</Form.Label>
+                  <Form.Control 
+                    required
+                    type='number'
+                    placeholder='Ex. 650'
+                    defaultValue=''
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Las piezas por ciclo deben ser un valor numérico
+                  </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group as={Col} md="4" className='Form-field' controlId='auto-cycles-b'>
+                  <Form.Label>Piezas por Ciclo B:</Form.Label>
+                  <Form.Control 
+                    required
+                    type='number'
+                    placeholder='Ex. 785'
+                    defaultValue=''
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Las piezas por ciclo deben ser un valor numérico
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Row>
+              <Form.Group className='Form-field' controlId='auto-submit'>
+                <Button type="submit">Agregar</Button>
+              </Form.Group>
+            </Form>
+          </div>
+          <div className="Half-content">
+            <h4>Delete</h4>
+            AG grid goes here to select from the Query
+          </div>
         </div>
       </Tab>
     </Tabs>

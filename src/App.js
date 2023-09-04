@@ -5,12 +5,10 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Link
 } from "react-router-dom";
 
 import Form from 'react-bootstrap/Form';
 
-import logo from './images/icon.png';
 
 import { Home } from './views/Home';
 import { Manager } from './views/Manager';
@@ -20,13 +18,6 @@ import { Register } from './views/Register';
 import { NavBar } from './components/NavBar';
 
 function App() {
-  let getDate = () => {
-    // get and format date
-    return 'abv. YYYY-MM-DD'
-  }
-  let active = (idx) => {
-    // try and toggle active? maybe use state? idfk
-  }
   return (
     <Router>
       <div className="App">
