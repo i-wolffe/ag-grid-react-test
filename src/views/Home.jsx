@@ -1,6 +1,8 @@
 import React from "react";
 import ActionCard from "../components/ActionCard";
 
+import Button from "react-bootstrap/Button";
+
 import { BiLogIn,BiLogOut,BiDetail,BiSend } from 'react-icons/bi'
 import { GiMechanicalArm } from 'react-icons/gi'
 import { CgSmartHomeHeat } from 'react-icons/cg'
@@ -9,7 +11,7 @@ export const Home = (props) => {
   return (
     <div className="Content-container">
       <div className="Login-bar d-flex-r">
-        <span className="Login-button">
+      <Button variant="outline-primary">
         { props.isLogin
           ? 
             <span className="Login-icon">
@@ -22,7 +24,7 @@ export const Home = (props) => {
               <span>Login</span>
             </span>
         }
-        </span>
+        </Button>
       </div>
       <div className="Card-container d-flex-r">
           <ActionCard to="/register/cell/add">

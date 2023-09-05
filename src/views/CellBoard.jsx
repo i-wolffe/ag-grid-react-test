@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+
 import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button'
 
 export class CellBoard extends Component {
   buildTable = () => {
@@ -49,8 +51,8 @@ export class CellBoard extends Component {
           <span>Pzas x hora: <Form.Control disabled type="text" placeholder="Pzas." /></span>
           <span>Num. Operadores: <Form.Control disabled type="text" placeholder="N.Ops." /></span>
           <span>
-            <button className="Action-button" type="button" id="btn-clear">Vaciar</button>
-            <button className="Action-button" type="button" id="btn-export">Exportar</button>
+            <Button variant="outline-danger Action-button" type="button" id="btn-clear">Vaciar</Button>
+            <Button variant="outline-success Action-button" type="button" id="btn-export">Exportar</Button>
           </span>
         </div>
         <table>

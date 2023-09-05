@@ -24,6 +24,16 @@ export class AutoclaveForm extends Component {
 			let id = this.props.id;
 		}
 	}
+	// componentDidUpdate() {
+  //   let isReset = this.props.reset
+	// 	console.log('UPDATE ->',this.props.reset)
+  //   if (isReset[0] === "auto") {
+  //     this.setState({
+  //       Validated: isReset[1]
+  //     });
+	// 		return
+  //   }
+	// }
 	async handleSubmit(ev) {
 		let form = ev.currentTarget;
 		if (form.checkValidity() === false) {
@@ -145,7 +155,7 @@ export class AutoclaveForm extends Component {
 					</Form.Group>
 				</Row>
 				<Form.Group className="Form-field" controlId="auto-submit">
-					<Button type="submit">Agregar</Button>
+					<Button variant="outline-success" type="submit">Agregar</Button>
 				</Form.Group>
 			</Form>
 		);

@@ -34,6 +34,15 @@ export class CellForm extends Component {
 			Validated: true,
 		});
 	}
+  // componentDidUpdate() {
+  //   let isReset = this.props.reset
+	// 	console.log('UPDATE ->',this.props.reset)
+  //   if (isReset[0] === "cell") {
+  //     this.setState({
+  //       Validated: isReset[1]
+  //     })
+  //   }
+	// }
   render() {
     return <Form noValidate validated={this.state.Validated} onSubmit={(e) => this.handleSubmit(e)}>
     <Row>
@@ -101,7 +110,7 @@ export class CellForm extends Component {
       </Form.Group>
     </Row>
     <Form.Group className='Form-field' controlId='cell-submit'>
-      <Button type="submit">Agregar</Button>
+      <Button variant="outline-success" type="submit">Agregar</Button>
     </Form.Group>
   </Form>
   }

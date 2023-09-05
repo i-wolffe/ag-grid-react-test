@@ -12,6 +12,15 @@ import CellForm from '../components/forms/CellForm';
 
 export const Register = (props) => {
   const { type,method,id } = useParams() // register/(cell/auto)/(add/edit)
+  const [isReset,setIsReset] = useState(["none",false])
+  let resetFields = () => {
+    // When tab changes, 
+  }
+  let handleTabChange = (ev) => {
+    let target = ev.target
+    let obj = target.getAttribute('data-rr-ui-event-key') // Given name on the DOM to the Key
+    setIsReset([obj,true])
+  }
   return (
     <div className="Tab-container">
       {/* Crud conectado a una base de datos para 
@@ -20,12 +29,13 @@ export const Register = (props) => {
       defaultActiveKey={type || 'cell'}
       id="register-tab-options"
       className="mb-3"
+      onClick={(e) => handleTabChange(e)}
     >
       <Tab eventKey="cell" title="Celda">
         <div className="d-flex-r">
           <div className="Half-content d-flex">
             <h4>Agregar modelo a Celda</h4>
-            <CellForm props={props} method={method} id={id}/>
+            <CellForm props={props} method={method} id={id} reset={isReset} />
           </div>
           <div className="Half-content">
             <h4>Delete</h4>
@@ -38,7 +48,7 @@ export const Register = (props) => {
       <div className="d-flex-r">
           <div className="Half-content d-flex">
             <h4>Agregar Autoclave</h4>
-            <AutoclaveForm props={props} method={method} id={id} />
+            <AutoclaveForm props={props} method={method} id={id} reset={isReset}/>
           </div>
           <div className="Half-content">
             <h4>Delete</h4>

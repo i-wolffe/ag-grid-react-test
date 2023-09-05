@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+
 import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 export class AutoBoard extends Component {
   constructor(props) {
@@ -36,8 +38,8 @@ export class AutoBoard extends Component {
           <span>Piezas/Ciclo (B): <Form.Control disabled type="text" placeholder="Pzas. B" /></span>
           <span>Tripulación: <Form.Control disabled type="text" placeholder="N.Ops." /></span>
           <span>
-            <button className="Action-button" type="button" id="btn-clear">Vaciar</button>
-            <button className="Action-button" type="button" id="btn-export">Exportar</button>
+            <Button variant="outline-danger" type="button" id="btn-clear">Vaciar</Button>
+            <Button variant="outline-success" type="button" id="btn-export">Exportar</Button>
           </span>
         </div>
         <table>
