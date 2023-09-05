@@ -30,7 +30,6 @@ export class AutoclaveForm extends Component {
 			ev.preventDefault();
 			ev.stopPropagation();
 		}
-    console.log('LOG!!')
     console.log(this.state.Validated)
 		this.setState({
 			Validated: true,
