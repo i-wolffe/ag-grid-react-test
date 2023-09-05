@@ -267,6 +267,14 @@ p.Info-field {
   padding-top: 1rem
 }
 
+.Config-form {
+  padding-left: 0.5rem;
+}
+
+.Config-form > h5 {
+  opacity: 0.6;;
+}
+
 /**************************************************/
 
 .Action-card {

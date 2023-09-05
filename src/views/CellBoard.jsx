@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button'
+import Dropdown from 'react-bootstrap/Dropdown';
+
+import { FiSettings } from 'react-icons/fi'
 
 export class CellBoard extends Component {
   buildTable = () => {
@@ -35,6 +38,30 @@ export class CellBoard extends Component {
   updateText(e){
     // Each keystroke perhaps? maybe unnecessary if it will have the scanner
   }
+  async handleShiftSelection(e) {
+    let elem = e.target
+    let targetId = elem.getAttribute('id')
+    console.log('Shift',targetId)
+    if (targetId != null){
+      this.setState({
+        TableShift: parseInt(targetId)
+      })
+    }
+  }
+  async handleHourSelection(e) {
+    // console.log('ENTER FORM CLICK')
+    let elem = e.target
+    let targetId = elem.getAttribute('id')
+    console.log('Hour-group',targetId)
+    this.setState({
+      TableHours: parseInt(targetId)
+    })
+    if(parseInt(targetId) === 12) {
+      document.getElementById('3').setAttribute('disabled',true)
+    } else {
+      document.getElementById('3').removeAttribute('disabled',false)
+    }
+  }
   render() {
     return (
       <div className="Content-container">
@@ -53,6 +80,52 @@ export class CellBoard extends Component {
           <span>
             <Button variant="outline-danger Action-button" type="button" id="btn-clear">Vaciar</Button>
             <Button variant="outline-success Action-button" type="button" id="btn-export">Exportar</Button>
+            <Dropdown>
+              <Dropdown.Toggle variant="outline-dark Action-button" id="btn-config">
+                <FiSettings />
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Form className='Config-form' onClick={(e) => this.handleHourSelection(e)}>
+                  <h5>Horario</h5>
+                  <Form.Check
+                    type='radio'
+                    id='8'
+                    name='shift-opt'
+                    label='8 Horas'
+                    defaultChecked
+                  />
+                  <Form.Check
+                    type='radio'
+                    id='12'
+                    name='shift-opt'
+                    label='12 Horas'
+                  />
+                </Form>
+                <Dropdown.Divider />
+                <Form className='Config-form' onClick={(e) => this.handleShiftSelection(e)}>
+                <h5>Turno</h5>
+                  <Form.Check
+                    type='radio'
+                    id='1'
+                    name='shift-hrs'
+                    label='Turno 1'
+                    defaultChecked
+                  />
+                  <Form.Check
+                    type='radio'
+                    id='2'
+                    name='shift-hrs'
+                    label='Turno 2'
+                  />
+                  <Form.Check
+                    type='radio'
+                    id='3'
+                    name='shift-hrs'
+                    label='Turno 3'
+                  />
+                </Form>
+              </Dropdown.Menu>
+            </Dropdown>
           </span>
         </div>
         <table>
