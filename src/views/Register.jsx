@@ -11,6 +11,7 @@ import Row from 'react-bootstrap/Row';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
+import AutoclaveForm from '../components/forms/AutoclaveForm';
 
 export const Register = (props) => {
   const { type,method,id } = useParams() // register/(cell/auto)/(add/edit)
@@ -129,7 +130,7 @@ export const Register = (props) => {
       <div className="d-flex-r">
           <div className="Half-content d-flex">
             <h4>Agregar Autoclave</h4>
-            <Form noValidate validated={validatedAuto} onSubmit={handleSubmitAuto}>
+            {/* <Form noValidate validated={validatedAuto} onSubmit={handleSubmitAuto}>
               <Row>
                 <Form.Group  as={Col} md="4" className='Form-field' controlId='auto-number'>
                   <Form.Label>Número de Autoclave</Form.Label>
@@ -209,7 +210,8 @@ export const Register = (props) => {
               <Form.Group className='Form-field' controlId='auto-submit'>
                 <Button type="submit">Agregar</Button>
               </Form.Group>
-            </Form>
+            </Form> */}
+            <AutoclaveForm props={props} method={method} id={id} />
           </div>
           <div className="Half-content">
             <h4>Delete</h4>
