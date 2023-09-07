@@ -31,16 +31,19 @@ export const Home = (props) => {
             <h2>Registro de Celdas</h2>
             <GiMechanicalArm />
             <BiSend />
+            <p>Agregar al registro un nuevo modelo de manguera para trabajar en una celda</p>
           </ActionCard>
           <ActionCard to="/register/auto/add">
             <h2>Registro de Autoclaves</h2>
             <CgSmartHomeHeat />
             <BiSend />
+            <p>Agregar una nueva autoclave para monitorear</p>
           </ActionCard>
           <ActionCard to="/manager/">
             <h2>Consultar Documentos</h2>
             <BiDetail />
             <BiSend />
+            <p>Administrar los registros diarios y semanales transferido de las celdas y autoclaves</p>
           </ActionCard>
       </div>
     </div>

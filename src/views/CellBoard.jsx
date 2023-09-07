@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 
+import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button'
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -128,7 +129,7 @@ export class CellBoard extends Component {
             </Dropdown>
           </span>
         </div>
-        <table>
+        <Table bordered hover>
           <thead>
             <tr>
               <th>ID</th>
@@ -219,7 +220,7 @@ export class CellBoard extends Component {
               <td><Form.Control className="Firm" type="text" placeholder="Firma" /></td>
             </tr>
           </tbody>
-        </table>
+        </Table>
       </div>
     );
   }

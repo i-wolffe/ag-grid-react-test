@@ -14,7 +14,8 @@ export const ActionCard = ({children, ...props}) => {
     </div>
     <div className="Card-body">
       <div className="Card-text">
-        <p>Lorem ipsum dolor sit amet.</p>
+        {children[3]}
+        {/* <p>Lorem ipsum dolor sit amet.</p> */}
       </div>
       <div className="Card-cta">{/* Call to Action. Bind to parent? */}
         <Link to={props.to}>
