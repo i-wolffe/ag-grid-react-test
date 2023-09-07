@@ -5,6 +5,8 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button'
 import Dropdown from 'react-bootstrap/Dropdown';
 
+import AppInfo from '../components/AppInfo';
+
 import { FiSettings } from 'react-icons/fi'
 
 export class CellBoard extends Component {
@@ -27,17 +29,23 @@ export class CellBoard extends Component {
     super(props)
     this.state = {
       CellInfo: [],
-      CellData: []
+      CellData: [],
+      SelectedArea: '',
+      SelectedName: '',
     }
   } 
   componentDidMount() {
     // Add query to DB
-    console.log('PROPOS: ',this.props)
-    if(this.props.selectedArea !== '' && this.props.selctedName !== '') {
-      //Db call for models
-    } else {
-      console.log('missing data')
-    }
+    console.log('PROPS: ',this.props)
+    console.log('STATE: ',this.state)
+    // if(this.props.selectedArea !== '' && this.props.selctedName !== '') {
+    //   //Db call for models
+    // } else {
+    //   console.log('missing data')
+    // }
+  }
+  componentDidUpdate() {
+    console.log('UPDATED??',this.state)
   }
   triggerScan(e) {
     // Write from Scanner on the selected input and then block it? REMEMBER Scanner ends with ENTER -> check ASCII
@@ -69,9 +77,25 @@ export class CellBoard extends Component {
       document.getElementById('3').removeAttribute('disabled',false)
     }
   }
+  async fetchModels() {
+    //verify info on the state
+    // await axios -> work on endpoint
+    // list the models on the dropdown
+  }
   render() {
     return (
       <div className="Content-container">
+        {
+          this.props.showInfo === '/cell'
+          ? 
+            <AppInfo Mode={this.props.showInfo} 
+              selectedArea={this.state.SelectedArea}
+              setSelectedArea={(val)=> this.setState({SelectedArea: val})}
+              selectedName={this.state.SelectedName}
+              setSelectedName={(val)=> this.setState({SelectedName: val})} 
+            />
+          : null
+        }
         <div className="Action-container">
           <span>
             Modelo:
