@@ -53,7 +53,7 @@ a {
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  min-width: 50vw;
+  min-width: 45vw;
 }
 
 .App-info {
@@ -61,6 +61,12 @@ a {
   flex-direction: row;
   justify-content:flex-end;
   min-width: 50vw;
+}
+
+p.Info-field > select {
+  /* max-width: 6rem !important; */
+  margin-right: 5px !important;
+  font-size: 16px !important;
 }
 
 p.Info-field {
@@ -88,7 +94,7 @@ p.Info-field {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   font-size: calc(10px + 2vmin);
   color: var(--highlight-text);
   /* color: white; */
@@ -96,6 +102,7 @@ p.Info-field {
 
 .App-link {
   height: 4vh;
+  cursor: default !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -119,8 +126,13 @@ p.Info-field {
   text-decoration: none;
 }
 
+.App-link > li > a > span{
+  cursor: pointer !important;
+}
+
 .App-link > li {
   list-style: none;
+  
   text-decoration: none; 
   height: auto;
   display: flex;
@@ -392,7 +404,7 @@ p.Info-field {
 /**************************************************/
 
 p > span > input {
-  width: 10rem !important;
+  width: 8rem !important;
 }
 p > input, span > input {
   width: 4.5rem !important;

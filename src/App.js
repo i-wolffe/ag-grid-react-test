@@ -16,30 +16,44 @@ import { CellBoard } from './views/CellBoard';
 import { AutoBoard } from './views/AutoBoard';
 import { Register } from './views/Register';
 import { NavBar } from './components/NavBar';
+import { useState } from 'react';
+import AppInfo from './components/AppInfo';
 
-function App() {
+function App(props) {
+  const [showInfo,setShowInfo] = useState('')
+  const [selectedArea,setSelectedArea] = useState('')
+  const [selectedName,setSelectedName] = useState('')
   return (
     <Router>
       <div className="App">
         <header className="App-header">
-          <NavBar />
-          <div className='App-info'>
-            <div className='Info-container'>
-              <p className='Info-field'>
-                <strong>Grupo: </strong><Form.Control type="text" placeholder="Grupo" />
-                <strong>Area: </strong><Form.Control type="text" placeholder="Area" />
-              </p>
-            </div>
-            <div className='Info-container'>
-              <p className='Info-field'><strong>Responsable: </strong><span id='resName'><Form.Control type="text" placeholder="John Doe" /></span></p>
-              {/* <p className='Info-field'><strong>Supervisa: </strong><span id='superName'><Form.Control type="text" placeholder="Jane Doe" /></span></p> */}
-            </div>
-          </div>
+          <NavBar setShowInfo={setShowInfo}/>
+            {
+              showInfo === '/cell'
+              ? 
+                <AppInfo Mode={showInfo} 
+                  selectedArea={selectedArea}
+                  setSelectedArea={setSelectedArea}
+                  selectedName={selectedName}
+                  setSelectedName={setSelectedName} 
+                />
+              : null
+            }
         </header>
         <Routes>
           <Route path='/' element={ <Home/> } />
-          <Route path='/cell-board' element={ <CellBoard/> }/>
-          <Route path='/auto-board' element={ <AutoBoard/> }/>
+          <Route path='/cell-board' element={ 
+            <CellBoard 
+              selectedArea={selectedArea}
+              selectedName={selectedName}
+            /> 
+          }/>
+          <Route path='/auto-board' element={ 
+            <AutoBoard
+            selectedArea={selectedArea}
+            selectedName={selectedName}
+            /> 
+          }/>
           <Route path='/manager' element={ <Manager/> }/>
           <Route path='/register/:type?/:method?/:id?' element={ <Register/> }/>
         </Routes>

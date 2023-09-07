@@ -32,6 +32,12 @@ export class CellBoard extends Component {
   } 
   componentDidMount() {
     // Add query to DB
+    console.log('PROPOS: ',this.props)
+    if(this.props.selectedArea !== '' && this.props.selctedName !== '') {
+      //Db call for models
+    } else {
+      console.log('missing data')
+    }
   }
   triggerScan(e) {
     // Write from Scanner on the selected input and then block it? REMEMBER Scanner ends with ENTER -> check ASCII
@@ -69,7 +75,7 @@ export class CellBoard extends Component {
         <div className="Action-container">
           <span>
             Modelo:
-            <Form.Select aria-label="Default select"  placeholder="Motivo">
+            <Form.Select aria-label="Default select"  placeholder="Modelo">
               <option>Seleccionar modelo</option>
               <option value="1">370952E</option>
               <option value="2">388898B</option>
