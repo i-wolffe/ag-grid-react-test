@@ -20,11 +20,9 @@ export class AppInfo extends Component {
     // when calling this back to block it
     // maybe pass a bool called isDisabled??????
     // OOOOOOOOOR wait for that action-lock
-    console.log('LOREM IPSUM props',this.props)
 		this.setState({
       Mode: this.props.Mode,
 		});
-    console.log('LOREM IPSUM STATE ->',this.state)
 		//Fetch from DB
     await axios.get("http://localhost:8800/cellAreas").then(response => {
       // console.log('-',response.data);
@@ -67,6 +65,8 @@ export class AppInfo extends Component {
     this.props.setSelectedArea(this.state.SelectedArea)
     console.log('RETURNING.. Name... ',this.state.SelectedName)
     this.props.setSelectedName(this.state.SelectedName)
+    console.log('Turn ON fetch for models...')
+    this.props.canFetchModels(true)
   }
 	render() {
 		return (

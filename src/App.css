@@ -59,8 +59,12 @@ a {
 .App-info {
   display: flex;
   flex-direction: row;
-  justify-content:flex-end;
+  position: absolute;
+  justify-content: flex-end;
   min-width: 50vw;
+  top: 0.5rem;
+  right: 0;
+  color: var(--background);
 }
 
 p.Info-field > select {
