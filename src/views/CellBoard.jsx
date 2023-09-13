@@ -8,32 +8,24 @@ import Dropdown from 'react-bootstrap/Dropdown';
 
 import AppInfo from '../components/AppInfo';
 
-import { FiSettings } from 'react-icons/fi';
+import { FiSettings,FiRefreshCcw,FiLock,FiUnlock } from 'react-icons/fi';
 
 export class CellBoard extends Component {
-  buildTable = () => {
-    return (
-      <tr>
-        <td></td>
-        <td></td>
-        <td>HERE</td>
-        <td>GOES</td>
-        <td>THE</td>
-        <td>FETCH</td>
-        <td>LOGIC</td>
-        <td></td>
-        <td></td>
-      </tr>
-    )
-  }
   constructor(props) {
     super(props)
     this.state = {
       SelectedArea: '',
       SelectedName: '',
       SelectedModel: '',
+      useLazyLoad: false,
+      ModelInfo: null,
       AvailableModels: [],
+      ListTimeReasons: [],
       CanFetchModels: false,
+      TableHours: 12,
+      TableShift: 1,
+      ActiveTarget: 1,
+      isLocked: false
     }
   } 
   formatHours(time) {
@@ -134,7 +126,23 @@ export class CellBoard extends Component {
     }
     return myHours2
   }
-  componentDidMount() {
+  async componentDidMount() {
+
+    // only executes on firstRender
+    if (this.state.ListTimeReasons.length === 0) {
+      await axios.get("http://localhost:8800/listMotivos").then(response => {
+      this.setState({
+        ListTimeReasons: response.data,
+      });
+    });
+    console.log('Motivos loaded from DB')
+    // if (false) { // Condition to toggle lazy load usage
+      // get ALL areas and ALL cells
+      // Filter data
+      // Turn on LAZY FLAG
+    } else {
+      console.log('Motivos existed')
+    }
     // Add query to DB  
     // if(this.props.selectedArea !== '' && this.props.selctedName !== '') {
     //   //Db call for models
@@ -144,8 +152,8 @@ export class CellBoard extends Component {
   }
   componentDidUpdate() {
     // Verify state variable to see if the query has to be made
-    console.log('UPDATED??',this.state)
     if (this.state.CanFetchModels) {
+      console.log('FETCHING MODELS for -> ',this.state.selectedName)
       this.setState({
         CanFetchModels: false
       })
@@ -222,39 +230,62 @@ export class CellBoard extends Component {
     // Load it into the respective fields
     document.getElementById('model-pzas').setAttribute('value',obj.Piezas)
     document.getElementById('model-nops').setAttribute('value',obj.Operadores)
+    this.setState({
+      ModelInfo: obj
+    })
     // read Table parameters
     // Modify table
   }
   modifyTableParams() {
     console.log('MOD TABLE PARAMS', this.state)
   }
-  generateTable(dataList) {
+  generateTable () {
+    console.log('Building table')
+    let returnObj = []
+    let myHours = this.genHours2(this.state.TableShift,this.state.TableHours)
+    myHours.forEach((hour,index) => {
+      returnObj.push(<tr key={`row-${index+1 }`}>
+        <td id={`id-${index+1}`} >{index+1}</td>
+        <td id={`hours-${index+1}`} >{hour}</td>
+        <td id={`model-${index+1}`} >{this.state.SelectedModel}</td>
+        <td id={`pzas-${index+1}`} ></td>
+        <td id={`acum-${index+1}`} ></td>
+        <td id={`deadt-${index+1}`} ></td>
+        <td id={`reason-${index+1}`} >
+          <Form.Select aria-label="Default select" 
+            type="text" placeholder="Motivo"
+            id={`reason-selector-${index+1}`}
+          >
+            <option value={null}>Selecciona una opción</option>
+            {
+              this.state.ListTimeReasons.map((reason,idx) => {
+                return <option value={idx+1}>{reason.abv} - {reason.name}</option>
+              })
+            }
+          </Form.Select>
+        </td>
+        <td id={`nok-${index+1}`} ></td>
+        <td id={`sign-${index+1}`} ><Form.Control className="Firm" type="text" placeholder="Firma" /></td>
+      </tr>)
+    });
+    return returnObj
+  }
+  lockTable(e) {
+    e.preventDefault()
+    let prev = this.state.isLocked
+    this.setState({
+      isLocked: !prev
+    })
+    console.warn(!prev)
+  }
+  fillTable(dataList) {
     // reset table
     let tabWrapper = document.getElementById('Table-body-container')
     tabWrapper.innerHTML('')
     // fetch the correct configuration of 
     let hourArr = this.genHours2()
-    // rebuild / build table
-    dataList.map((data,index) => {
-      return <tr>
-        <td id={`id-${index+1}`} >1{index+1}</td>
-        <td id={`hours-${index+1}`} >{hourArr[index]}</td>
-        <td id={`model-${index+1}`} >{this.state.SelectedModel}</td>
-        <td id={`pzas-${index+1}`} >{data.prodPzas}</td>
-        <td id={`acum-${index+1}`} >{this.state.AcumPzas}</td>
-        <td id={`deadt-${index+1}`} >{data.deadTime}</td>
-        <td id={`reason-${index+1}`} >
-          <Form.Select aria-label="Default select" type="text" placeholder="Motivo">
-            <option>Selecciona una opción</option>
-            <option value="1">MF - Motivo Fuera</option>
-            <option value="2">MR - Mantenimiento Robot</option>
-            <option value="3">CM - Comedor</option>
-          </Form.Select>
-        </td>
-        <td id={`nok-${index+1}`} >OK?</td>
-        <td id={`sign-${index+1}`} ><Form.Control className="Firm" type="text" placeholder="Firma" /></td>
-      </tr>
-      })
+    // Target cell to set information
+    //
     console.log(hourArr)
   }
   render() {
@@ -269,6 +300,7 @@ export class CellBoard extends Component {
               selectedName={this.state.SelectedName}
               setSelectedName={(val)=> this.setState({SelectedName: val})} 
               canFetchModels={(val)=> this.setState({CanFetchModels: val})} 
+              isLocked={this.state.isLocked}
             />
           : null
         }
@@ -279,6 +311,7 @@ export class CellBoard extends Component {
               aria-label="Model-Select"
               placeholder="Modelo"
               onChange={(e) => this.SelectModel(e.target)}
+              disabled={this.state.isLocked}
             >
               <option value="">--</option>
               {
@@ -294,8 +327,22 @@ export class CellBoard extends Component {
           <span>Pzas x hora: <Form.Control disabled id="model-pzas"type="text" placeholder="Pzas." /></span>
           <span>Num. Operadores: <Form.Control disabled id="model-nops"type="text" placeholder="N.Ops." /></span>
           <span>
-            <Button variant="outline-warning Action-button" type="button" id="btn-change">Cambiar</Button>
-            <Button variant="outline-success Action-button" type="button" id="btn-export">Exportar</Button>
+            <Button 
+              variant={`${
+                this.state.isLocked ? "" : "outline-"
+              }danger Action-button`}
+              type="button" id="btn-lock"
+              onClick={(e) => this.lockTable(e)}
+            >
+              {
+                this.state.isLocked ? <FiLock /> : <FiUnlock />
+              }
+            </Button>
+            <Button variant="outline-primary Action-button" type="button" id="btn-reload"><FiRefreshCcw /></Button>
+            <Button variant="outline-success Action-button"
+              type="button" id="btn-export"
+              disabled={!(this.state.isLocked)}
+            >Exportar</Button>
             <Dropdown>
               <Dropdown.Toggle variant="outline-dark Action-button" id="btn-config">
                 <FiSettings />
@@ -308,13 +355,13 @@ export class CellBoard extends Component {
                     id='8'
                     name='shift-opt'
                     label='8 Horas'
-                    defaultChecked
                   />
                   <Form.Check
                     type='radio'
                     id='12'
                     name='shift-opt'
                     label='12 Horas'
+                    defaultChecked
                   />
                 </Form>
                 <Dropdown.Divider />
@@ -354,15 +401,17 @@ export class CellBoard extends Component {
               <th>Acumulado</th>
               <th>Tiempo muerto</th>
               <th>Motivo</th>
-              <th>Status</th>
+              <th>Scrap</th>
               <th>Firma Supervisor</th>
             </tr>
           </thead>
           <tbody id="Table-body-container">
             {
-              this.buildTable()
+              this.generateTable().map((item) => {
+                return item
+              })
             }
-            <tr>
+            {/* <tr>
               <td>1</td>
               <td>06:00 - 07:00</td>
               <td>370952E</td>
@@ -433,7 +482,7 @@ export class CellBoard extends Component {
               </td>
               <td>OK?</td>
               <td><Form.Control className="Firm" type="text" placeholder="Firma" /></td>
-            </tr>
+            </tr> */}
           </tbody>
         </Table>
       </div>
