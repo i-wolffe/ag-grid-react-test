@@ -7,10 +7,12 @@ export class AppInfo extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+      useLazyLoad : true,
 			Validated: false,
       AreaData: [],
       SelectedArea: this.props.selectedArea,
       CellsData: [],
+      AllCells: [],
       SelectedName: this.props.selectedName,
 		};
 	}
@@ -23,14 +25,28 @@ export class AppInfo extends Component {
 		this.setState({
       Mode: this.props.Mode,
 		});
-		//Fetch from DB
-    await axios.get("http://localhost:8800/cellAreas").then(response => {
-      // console.log('-',response.data);
-      this.setState({
-          AreaData: response.data,
+    if (this.state.AreaData.length === 0) {
+      //Fetch from DB
+      await axios.get("http://localhost:8800/cellAreas").then(response => {
+        // console.log('-',response.data);
+        this.setState({
+            AreaData: response.data,
+        });
+      }).then(async () => {
+        if (this.state.useLazyLoad) {
+          await axios.get("http://localhost:8800/allCells").then(response => {
+            // console.log('-',response.data);
+            this.setState({
+              AllCells: response.data,
+            });
+          })
+        }
       });
-    });
-    console.log('Options Fetched')
+      console.log('Options Fetched')
+    } else {
+      // OptionsAlreadyFetched
+      console.log('Already Fetched Areas -> ', this.state.AreaData.length)
+    }
 		// .then display on dropdown
 	}
 	ChangeArea = async (e) => {
@@ -38,14 +54,26 @@ export class AppInfo extends Component {
     this.setState({
         SelectedArea: e.value
     });
-    // console.log('------ENTER CHANGE AREA',e.value,'-',this.state.SelectedCell,'-')
-    await axios.get('http://localhost:8800/cellsOnArea?area=' + e.value).then(response => {
-        // console.log('CELLSDATA->',response.data);    
-        this.setState({
-            CellsData: response.data,
-        });
-        
-    });
+    if (this.state.useLazyLoad) {
+      let ansList = []
+      this.state.AllCells.map((cell) => {
+        if (cell.Area === e.value) {
+          ansList.push({ name: cell.Nombre})
+        }
+        return 0
+      })
+      this.setState({
+        CellsData: ansList
+      })
+    } else { // Default operation mode
+      // console.log('------ENTER CHANGE AREA',e.value,'-',this.state.SelectedCell,'-')
+      await axios.get('http://localhost:8800/cellsOnArea?area=' + e.value).then(response => {
+          // console.log('CELLSDATA->',response.data);    
+          this.setState({
+              CellsData: response.data,
+          });
+      });
+    }
   }
 	ChangeCell = async (e) => {
     // console.log('ChangeCell',e)
@@ -77,6 +105,7 @@ export class AppInfo extends Component {
 						<Form.Select aria-label="AreaSelect" placeholder="Area"
               onChange={(e) => this.ChangeArea(e.target)}
               defaultValue={this.state.SelectedArea}
+              disabled={this.props.isLocked}
             >
 							<option id='ph-area' value={null}>--</option>
               {
@@ -89,6 +118,7 @@ export class AppInfo extends Component {
 						<Form.Select aria-label="GroupSelect" placeholder="Grupo"
               onChange={(e) => this.ChangeCell(e.target)}
               defaultValue={this.state.SelectedCell}
+              disabled={this.props.isLocked}
             >
 							<option id='ph-cell' value={null}>--</option>
               {
