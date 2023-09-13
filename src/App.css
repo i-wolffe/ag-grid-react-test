@@ -90,6 +90,11 @@ p.Info-field {
   align-items: flex-start;
 }
 
+.id-container > button {
+  padding: 2px !important;
+  display: flex !important;
+}
+
 
 .App-header {
   background-color: var(--highlight);

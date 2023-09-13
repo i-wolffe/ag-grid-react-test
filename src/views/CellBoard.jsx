@@ -9,6 +9,8 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import AppInfo from '../components/AppInfo';
 
 import { FiSettings,FiRefreshCcw,FiLock,FiUnlock } from 'react-icons/fi';
+import { PiArrowsInLineVerticalLight, PiSplitVerticalLight } from 'react-icons/pi';
+import { RxDividerHorizontal } from 'react-icons/rx';
 
 export class CellBoard extends Component {
   constructor(props) {
@@ -25,98 +27,84 @@ export class CellBoard extends Component {
       TableHours: 12,
       TableShift: 1,
       ActiveTarget: 1,
-      isLocked: false
+      isLocked: false,
+      ShiftHours: [],
     }
   } 
   formatHours(time) {
 
-  }
-  genHours(shift,mode) {
-    let startH = 0
-    let startM = 0
-    // mode -> 12
-    if (parseInt(mode) === 12) {
-      startH = parseInt(shift) === 1 ? 6 : 18
-    } else {
-      // mode -> 8
-      const hours = [6,14,21]
-      const mins = [0,0,1]
-      startH = hours[shift-1]
-      startM = mins[shift-1]
-    }
-    return []
   }
   genHours2(shift,mode) {
     let myHours2 = []
     if (parseInt(mode) === 12) {
       if (parseInt(shift) === 1) {
         myHours2 = [
-          '6:00 - 7:00',
-          '7:00 - 8:00',
-          '8:00 - 9:00',
-          '9:00 - 10:00',
-          '10:00 - 11:00',
-          '11:00 - 12:00',
-          '12:00 - 13:00',
-          '13:00 - 14:00',
-          '14:00 - 15:00',
-          '15:00 - 16:00',
-          '16:00 - 17:00',
-          '17:00 - 18:00',
+          ['6:00','7:00','split'],
+          ['7:00','8:00','split'],
+          ['8:00','9:00','split'],
+          ['9:00','10:00','split'],
+          ['10:00','11:00','split'],
+          ['11:00','12:00','split'],
+          ['12:00','13:00','split'],
+          ['13:00','14:00','split'],
+          ['14:00','15:00','split'],
+          ['15:00','16:00','split'],
+          ['16:00','17:00','split'],
+          ['17:00','18:00','split'],
         ]
       } else {
         myHours2 = [
-          '18:00 - 19:00',
-          '19:00 - 20:00',
-          '20:00 - 21:00',
-          '21:00 - 22:00',
-          '22:00 - 23:00',
-          '23:00 - 0:00',
-          '0:00 - 1:00',
-          '1:00 - 2:00',
-          '2:00 - 3:00',
-          '3:00 - 4:00',
-          '4:00 - 5:00',
-          '5:00 - 6:00',
+          ['18:00','19:00','split'],
+          ['19:00','20:00','split'],
+          ['20:00','21:00','split'],
+          ['21:00','22:00','split'],
+          ['22:00','23:00','split'],
+          ['23:00','0:00','split'],
+          ['0:00','1:00','split'],
+          ['1:00','2:00','split'],
+          ['2:00','3:00','split'],
+          ['3:00','4:00','split'],
+          ['4:00','5:00','split'],
+          ['5:00','6:00','split'],
         ]
       }
     } else {
       switch(parseInt(shift)) {
         case 1:
           myHours2 = [
-            '6:00 - 7:00',
-            '7:00 - 8:00',
-            '8:00 - 9:00',
-            '9:00 - 10:00',
-            '10:00 - 11:00',
-            '11:00 - 12:00',
-            '12:00 - 13:00',
-            '13:00 - 14:00'
+            ['6:00','7:00','split'],
+            ['7:00','8:00','split'],
+            ['8:00','9:00','split'],
+            ['9:00','10:00','split'],
+            ['10:00','11:00','split'],
+            ['11:00','12:00','split'],
+            ['12:00','13:00','split'],
+            ['13:00','14:00','split'],
           ]
           break
         case 2:
           myHours2 = [
-            '14:00 - 15:00',
-            '15:00 - 16:00',
-            '16:00 - 17:00',
-            '17:00 - 18:00',
-            '18:00 - 19:00',
-            '19:00 - 20:00',
-            '20:00 - 21:00',
-            '21:00 - 21:30',
+            ['14:00','15:00','split'],
+            ['15:00','16:00','split'],
+            ['16:00','17:00','split'],
+            ['17:00','18:00','split'],
+            ['18:00','19:00','split'],
+            ['19:00','20:00','split'],
+            ['20:00','21:00','split'],
+            ['21:00','21:30','split'],
           ]
           break
         case 3:
           myHours2 = [
-            '21:30 - 22:00',
-            '22:00 - 23:00',
-            '23:00 - 0:00',
-            '0:00 - 1:00',
-            '1:00 - 2:00',
-            '2:00 - 3:00',
-            '3:00 - 4:00',
-            '4:00 - 5:00',
-            '5:00 - 6:00',
+            ['21:30','22:00','split'],
+            ['22:00','23:00','split'],
+            ['23:00','0:00','split'],
+            ['0:00','1:00','split'],
+            ['1:00','2:00','split'],
+            ['2:00','3:00','split'],
+            ['3:00','4:00','split'],
+            ['4:00','5:00','split'],
+            ['5:00','6:00','split'],
           ]
           break
         default:
@@ -171,9 +159,10 @@ export class CellBoard extends Component {
     let targetId = elem.getAttribute('id')
     console.log('Shift',targetId)
     if (targetId != null){
-      this.setState({
-        TableShift: parseInt(targetId)
-      })
+      // this.setState({
+      //   TableShift: parseInt(targetId)
+      // })
+      this.generateTable([0,parseInt(targetId)])
     }
   }
   async handleHourSelection(e) {
@@ -181,9 +170,10 @@ export class CellBoard extends Component {
     let elem = e.target
     let targetId = elem.getAttribute('id')
     console.log('Hour-group',targetId)
-    this.setState({
-      TableHours: parseInt(targetId)
-    })
+    // this.setState({
+    //   TableHours: parseInt(targetId)
+    // })
+    this.generateTable([parseInt(targetId),0])
     if(parseInt(targetId) === 12) {
       document.getElementById('3').setAttribute('disabled',true)
     } else {
@@ -239,14 +229,58 @@ export class CellBoard extends Component {
   modifyTableParams() {
     console.log('MOD TABLE PARAMS', this.state)
   }
-  generateTable () {
-    console.log('Building table')
+  generateTable (modifications=[0,0]) { // modifications[hour,shift]
+    console.log('Building table -> ',modifications)
     let returnObj = []
-    let myHours = this.genHours2(this.state.TableShift,this.state.TableHours)
+    let myHours = []
+    if (modifications[0] !== 0 || modifications[1] !== 0) {
+      // modify hour/shift to remake the table
+      let prevShift = modifications[1] === 0? this.state.TableShift : modifications[1]
+      let prevHours = modifications[0] === 0? this.state.TableHours : modifications[0]
+      myHours = this.genHours2(prevShift,prevHours)
+      this.setState({
+        ShiftHours: myHours,
+      })
+      console.log('from function')
+    } else {
+      myHours = this.state.ShiftHours
+      console.log('from state')
+    }
     myHours.forEach((hour,index) => {
-      returnObj.push(<tr key={`row-${index+1 }`}>
-        <td id={`id-${index+1}`} >{index+1}</td>
-        <td id={`hours-${index+1}`} >{hour}</td>
+      returnObj.push(<tr key={`row-${index+1 }`} id={`row-${index+1 }`}>
+        <td id={`id-${index+1}`} >
+          <div className="id-container d-flex">
+            <span>{index+1}</span>
+            {
+              hour[2] === 'split'
+              ?
+                <Button
+                  id={`split-cell-${index+1}`}
+                  variant='secondary'
+                  onClick={(e) => this.splitCell(e,`split-cell-${index+1}`,`row-${index+1}`,hour,index)}
+                >
+                  <PiSplitVerticalLight />
+                </Button>
+              : hour[2] === 'join'
+                ?
+                  <Button
+                    id={`join-cell-${index+1}`}
+                    variant='dark'
+                    onClick={(e) => this.joinCell(e,`join-cell-${index+1}`,`row-${index+1}`,hour,index)}
+                  >
+                    <PiArrowsInLineVerticalLight />
+                  </Button>
+                : 
+                  <Button
+                    variant='secondary'
+                    disabled
+                  >
+                    <RxDividerHorizontal />
+                  </Button>
+            }
+          </div>
+        </td>
+        <td id={`hours-${index+1}`} >{hour[0]}-{hour[1]}</td>
         <td id={`model-${index+1}`} >{this.state.SelectedModel}</td>
         <td id={`pzas-${index+1}`} ></td>
         <td id={`acum-${index+1}`} ></td>
@@ -259,7 +293,7 @@ export class CellBoard extends Component {
             <option value={null}>Selecciona una opción</option>
             {
               this.state.ListTimeReasons.map((reason,idx) => {
-                return <option value={idx+1}>{reason.abv} - {reason.name}</option>
+                return <option key={`opt-${idx+1}-${index+1}`} value={idx+1}>{reason.abv} - {reason.name}</option>
               })
             }
           </Form.Select>
@@ -269,6 +303,35 @@ export class CellBoard extends Component {
       </tr>)
     });
     return returnObj
+  }
+
+  splitCell(e,self,parent,hour,index){
+    e.preventDefault()
+    // console.log('brfore--',this.state.ShiftHours)
+    let wholeHour = hour[0].split(':')[0]
+    let halfLowRange = [`${hour[0]}`,`${wholeHour}:30`,'']
+    let halfHighRange = [`${wholeHour}:30`,`${hour[1]}`,'join']
+    let myHours = this.state.ShiftHours
+    myHours[index] = halfLowRange
+    myHours.splice(index+1,0,halfHighRange)
+    // console.log('arrfter--',myHours)
+    this.setState({
+      ShiftHours: myHours,
+      isLocked: true
+    })
+  }
+  joinCell(e,self,parent,hour,index) {
+    e.preventDefault()
+    console.log('antes join--',hour,index,this.state.ShiftHours)
+    let wholeHour = hour[0].split(':')[0]
+    let newHour = [`${wholeHour}:00`,`${hour[1]}`,'split']
+    let myHours = this.state.ShiftHours
+    myHours[index-1] = newHour
+    myHours.splice(index,1)
+    console.log('despues join --',myHours)
+    this.setState({
+      ShiftHours: myHours
+    })
   }
   lockTable(e) {
     e.preventDefault()
@@ -283,7 +346,7 @@ export class CellBoard extends Component {
     let tabWrapper = document.getElementById('Table-body-container')
     tabWrapper.innerHTML('')
     // fetch the correct configuration of 
-    let hourArr = this.genHours2()
+    let hourArr = this.state.ShiftHours
     // Target cell to set information
     //
     console.log(hourArr)
@@ -344,7 +407,7 @@ export class CellBoard extends Component {
               disabled={!(this.state.isLocked)}
             >Exportar</Button>
             <Dropdown>
-              <Dropdown.Toggle variant="outline-dark Action-button" id="btn-config">
+              <Dropdown.Toggle variant="outline-dark Action-button" id="btn-config" disabled={this.state.isLocked}>
                 <FiSettings />
               </Dropdown.Toggle>
               <Dropdown.Menu>
