@@ -11,6 +11,7 @@ import AppInfo from '../components/AppInfo';
 import { FiSettings,FiRefreshCcw,FiLock,FiUnlock } from 'react-icons/fi';
 import { PiArrowsInLineVerticalLight, PiSplitVerticalLight } from 'react-icons/pi';
 import { RxDividerHorizontal } from 'react-icons/rx';
+import { TbFileExport } from 'react-icons/tb';
 
 export class CellBoard extends Component {
   constructor(props) {
@@ -141,7 +142,7 @@ export class CellBoard extends Component {
   componentDidUpdate() {
     // Verify state variable to see if the query has to be made
     if (this.state.CanFetchModels) {
-      console.log('FETCHING MODELS for -> ',this.state.selectedName)
+      console.log('FETCHING MODELS for -> ',this.state.SelectedName)
       this.setState({
         CanFetchModels: false
       })
@@ -187,6 +188,7 @@ export class CellBoard extends Component {
       console.log('-',response.data);
       this.setState({
         AvailableModels: response.data,
+        SelectedModel: ''
       });
     });
     // list the models on the dropdown
@@ -206,6 +208,7 @@ export class CellBoard extends Component {
     this.setState({
       SelectedModel: e.value
     })
+    this.generateTable([this.state.TableHours,this.state.TableShift])
     this.getModelInfo(e.value)
   }
   getModelInfo(modelName) {
@@ -230,7 +233,7 @@ export class CellBoard extends Component {
     console.log('MOD TABLE PARAMS', this.state)
   }
   generateTable (modifications=[0,0]) { // modifications[hour,shift]
-    console.log('Building table -> ',modifications)
+    // console.log('Building table -> ',modifications)
     let returnObj = []
     let myHours = []
     if (modifications[0] !== 0 || modifications[1] !== 0) {
@@ -240,11 +243,13 @@ export class CellBoard extends Component {
       myHours = this.genHours2(prevShift,prevHours)
       this.setState({
         ShiftHours: myHours,
+        TableHours: prevHours,
+        TableShift: prevShift
       })
-      console.log('from function')
+      // console.log('from function -> ',prevHours,prevShift)
     } else {
       myHours = this.state.ShiftHours
-      console.log('from state')
+      // console.log('from state -> ',this.state.TableHours,this.state.TableShift)
     }
     myHours.forEach((hour,index) => {
       returnObj.push(<tr key={`row-${index+1 }`} id={`row-${index+1 }`}>
@@ -307,6 +312,12 @@ export class CellBoard extends Component {
 
   splitCell(e,self,parent,hour,index){
     e.preventDefault()
+    console.log('split ->',index)
+    let elem = document.getElementById(parent)
+    console.log('->',parent,elem)
+    elem.focus()
+    elem.style.setProperty('background-color', '#00ff00')
+    elem.setAttribute('selected',true)
     // console.log('brfore--',this.state.ShiftHours)
     let wholeHour = hour[0].split(':')[0]
     let halfLowRange = [`${hour[0]}`,`${wholeHour}:30`,'']
@@ -322,13 +333,14 @@ export class CellBoard extends Component {
   }
   joinCell(e,self,parent,hour,index) {
     e.preventDefault()
-    console.log('antes join--',hour,index,this.state.ShiftHours)
+    console.log('join ->',index)
+    // console.log('antes join--',hour,index,this.state.ShiftHours)
     let wholeHour = hour[0].split(':')[0]
     let newHour = [`${wholeHour}:00`,`${hour[1]}`,'split']
     let myHours = this.state.ShiftHours
     myHours[index-1] = newHour
     myHours.splice(index,1)
-    console.log('despues join --',myHours)
+    // console.log('despues join --',myHours)
     this.setState({
       ShiftHours: myHours
     })
@@ -391,21 +403,25 @@ export class CellBoard extends Component {
           <span>Num. Operadores: <Form.Control disabled id="model-nops"type="text" placeholder="N.Ops." /></span>
           <span>
             <Button 
-              variant={`${
-                this.state.isLocked ? "" : "outline-"
-              }danger Action-button`}
+              variant={`${this.state.isLocked ? "" : "outline-"}danger Action-button`}
               type="button" id="btn-lock"
               onClick={(e) => this.lockTable(e)}
+              disabled={this.state.SelectedModel !== '' ? false : true}
             >
-              {
-                this.state.isLocked ? <FiLock /> : <FiUnlock />
-              }
+              { this.state.isLocked ? <FiLock /> : <FiUnlock /> }
             </Button>
-            <Button variant="outline-primary Action-button" type="button" id="btn-reload"><FiRefreshCcw /></Button>
+            <Button variant="outline-primary Action-button"
+              type="button" id="btn-reload"
+              disabled={!(this.state.isLocked)}
+            >
+              <FiRefreshCcw />
+            </Button>
             <Button variant="outline-success Action-button"
               type="button" id="btn-export"
               disabled={!(this.state.isLocked)}
-            >Exportar</Button>
+            >
+              <TbFileExport/>
+            </Button>
             <Dropdown>
               <Dropdown.Toggle variant="outline-dark Action-button" id="btn-config" disabled={this.state.isLocked}>
                 <FiSettings />
@@ -454,7 +470,7 @@ export class CellBoard extends Component {
             </Dropdown>
           </span>
         </div>
-        <Table bordered hover>
+        <Table bordered hover striped>
           <thead>
             <tr>
               <th>ID</th>
