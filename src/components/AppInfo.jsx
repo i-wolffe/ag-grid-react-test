@@ -9,10 +9,10 @@ export class AppInfo extends Component {
 		this.state = {
       useLazyLoad : true,
 			Validated: false,
-      AreaData: [],
+      AreaData: this.props.cellAreas, // []
       SelectedArea: this.props.selectedArea,
       CellsData: [],
-      AllCells: [],
+      AllCells: this.props.cellNames,
       SelectedName: this.props.selectedName,
 		};
 	}
@@ -32,6 +32,7 @@ export class AppInfo extends Component {
         this.setState({
             AreaData: response.data,
         });
+        this.props.setCellAreas(response.data)
       }).then(async () => {
         if (this.state.useLazyLoad) {
           await axios.get("http://localhost:8800/allCells").then(response => {
@@ -39,6 +40,7 @@ export class AppInfo extends Component {
             this.setState({
               AllCells: response.data,
             });
+            this.props.setCellNames(response.data)
           })
         }
       });
@@ -54,7 +56,7 @@ export class AppInfo extends Component {
     this.setState({
         SelectedArea: e.value
     });
-    if (this.state.useLazyLoad) {
+    if (this.state.CellsData.length !== 0) {
       let ansList = []
       this.state.AllCells.map((cell) => {
         if (cell.Area === e.value) {
@@ -65,6 +67,7 @@ export class AppInfo extends Component {
       this.setState({
         CellsData: ansList
       })
+      this.props.setCellNames(ansList)
     } else { // Default operation mode
       // console.log('------ENTER CHANGE AREA',e.value,'-',this.state.SelectedCell,'-')
       await axios.get('http://localhost:8800/cellsOnArea?area=' + e.value).then(response => {

@@ -17,6 +17,9 @@ import { useState, useRef } from 'react';
 
 function App(props) {
   const [showInfo,setShowInfo] = useState('')
+  const [CellModels,setCellModels] = useState([])
+  const [CellAreas,setCellAreas] = useState([])
+  const [CellNames,setCellNames] = useState([])
   const isFirstRender = useRef(true)
   return (
     <Router>
@@ -29,6 +32,12 @@ function App(props) {
           <Route path='/cell-board' element={ 
             <CellBoard 
               showInfo={showInfo}
+              cellModels={CellModels}
+              setCellModels={setCellModels}
+              cellAreas={CellAreas}
+              cellNames={CellNames}
+              setCellAreas={setCellAreas}
+              setCellNames={setCellNames}
             /> 
           }/>
           <Route path='/auto-board' element={ 
@@ -36,7 +45,14 @@ function App(props) {
             /> 
           }/>
           <Route path='/manager' element={ <Manager/> }/>
-          <Route path='/register/:type?/:method?/:id?' element={ <Register/> }/>
+          <Route path='/register/:type?/:method?/:id?' element={ 
+            <Register
+              cellAreas={CellAreas}
+              cellNames={CellNames}
+              setCellAreas={setCellAreas}
+              setCellNames={setCellNames}
+            /> 
+          }/>
         </Routes>
       </div>
     </Router>

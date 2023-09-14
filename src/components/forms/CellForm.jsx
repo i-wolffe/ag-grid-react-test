@@ -9,15 +9,22 @@ export class CellForm extends Component {
   constructor(props) {
 		super(props);
 		this.state = {
-			CellGroup: "",
+			CellName: "",
 			CellArea: "",
 			CellModel: "",
 			CellPzas: "",
 			CellOperators: "",
 			Validated: false,
+      CellAreas: this.props.CellAreas,
+      CellNames: this.props.CellNames,
 		};
 	}
   async componentDidMount() {
+    // console.log(this.props)
+    // console.log('info -> method',this.props.method)
+    // console.log('info state -> area',this.state.CellAreas)
+    // console.log('info props -> area',this.props.CellAreas)
+    // console.log('info -> name',this.state.CellNames)
 		if (this.props.method !== "add" && this.props.method !== "") {
 			//Load data from db with the id
 			let id = this.props.id;
@@ -45,32 +52,57 @@ export class CellForm extends Component {
       }
     }
 	}
+  async setArea (e) {
+    this.setState({
+      CellArea: e.value,
+      CellNames: this.props.CellNames
+    })
+  }
+  async setCell (e) {
+    this.setState({
+      CellName: e.value 
+    })
+  }
   render() {
     return <Form noValidate validated={this.state.Validated} onSubmit={(e) => this.handleSubmit(e)}>
     <Row>
-      <Form.Group  as={Col} md="6" className='Form-field' controlId='cell-group'>
-        <Form.Label>Grupo de Celda:</Form.Label>
-        <Form.Control 
-          required
-          type='text'
-          placeholder='Ex. 8'
-          defaultValue=''
-        />
-        <Form.Control.Feedback type="invalid">
-          Por favor ingresa un valor válido
-        </Form.Control.Feedback>
-      </Form.Group>
       <Form.Group as={Col} md="6" className='Form-field' controlId='cell-area'>
         <Form.Label>Area de Celda:</Form.Label>
-        <Form.Control 
+        <Form.Select
           required
-          type='text'
-          placeholder='Ex. OSHAWA'
-          defaultValue=''
-        />
-        <Form.Control.Feedback type="invalid">
-          Por favor ingresa un valor válido
-        </Form.Control.Feedback>
+          id="area-selector"
+          placeholder="Ex. OSHAWA 2"
+          onChange={ (e) => this.setArea(e.target) }
+          onClick={ (e) => {this.setState({CellAreas: this.props.CellAreas})}}
+          style={{margin: 'auto'}}
+        >
+          {
+            this.state.CellAreas.map((area,idx) => {
+              return <option key={`area-opt-${idx}`}  value={area.name}>{area.name}</option>
+            })
+          }
+        </Form.Select>
+      </Form.Group>
+      <Form.Group  as={Col} md="6" className='Form-field' controlId='cell-group'>
+        <Form.Label>Grupo de Celda:</Form.Label>
+        <Form.Select
+          required
+          id="cell-selector"
+          placeholder="Ex. A1"
+          defaultValue="--"
+          onChange={ (e) => this.setCell(e.target) }
+          style={{margin: 'auto'}}
+        >
+          {
+            this.state.CellNames.map((cell,idx) => {
+              if (cell.Area === this.state.CellArea) {
+                return  <option key={`cell-name-${idx}`} value={cell.Nombre}>{cell.Nombre}</option>
+              } else {
+                return null
+              }
+            })
+          }
+        </Form.Select>
       </Form.Group>
     </Row>
     <Form.Group className='Form-field' controlId='cell-model'>
@@ -112,7 +144,7 @@ export class CellForm extends Component {
       </Form.Group>
     </Row>
     <Form.Group className='Form-field' controlId='cell-submit'>
-      <Button variant="outline-success" type="submit">Agregar</Button>
+      <Button variant="outline-success" type="submit">Enviar</Button>
     </Form.Group>
   </Form>
   }
