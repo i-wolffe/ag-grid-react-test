@@ -12,6 +12,7 @@ import AutoclaveForm from '../components/forms/AutoclaveForm';
 import CellForm from '../components/forms/CellForm';
 
 import axios from 'axios';
+import CellRegisters from '../components/tables/CellRegisters';
 
 
 export const Register = (props) => {
@@ -82,7 +83,7 @@ export const Register = (props) => {
           </div>
           <div className="Half-content">
             <h4>Delete</h4>
-            AG grid goes here to select from the Query
+            <CellRegisters />
           </div>
         </div>
       </Tab>

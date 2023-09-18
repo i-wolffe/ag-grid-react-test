@@ -106,7 +106,7 @@ export class CellForm extends Component {
       </Form.Group>
     </Row>
     <Form.Group className='Form-field' controlId='cell-model'>
-      <Form.Label>Nuevo Modelo:</Form.Label>
+      <Form.Label>Nombre del Modelo:</Form.Label>
       <Form.Control 
         required
         type='text'

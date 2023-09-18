@@ -462,6 +462,11 @@ table {
   display: grid;
 }
 
+.ag-cell-value {
+  /* overflow:inherit !important; */
+  font-size: 12px !important;
+}
+
 .subRow {
   background-color: rgba(0, 0, 0, 0.1) !important;
   opacity: 0.9;
