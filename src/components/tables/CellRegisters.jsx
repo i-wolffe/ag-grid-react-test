@@ -25,14 +25,18 @@ export class CellRegisters extends Component {
         maxWidth: 150,
         menuTabs: ['filterMenuTab'],
       },
+      context: { componentParent: this },
       rowData: null,
     }
   }
+  parentSetAction(action,index) {
+    console.log('SETTING: ->',action,index)
+    console.log(this.state.Data[parseInt(index)])
+    this.props.setData({action: action, data: this.state.Data[parseInt(index)]})
+  }
   processData(dataArr) {
     dataArr.forEach((element,index) => {
-      console.log(element)
-      // element['options'] = `options-model-${index}`
-      element['options'] = `<strong id="options-model-${index}">holi</strong>`
+      element['options'] = `${index}`
     });
     return dataArr
   }
@@ -67,6 +71,7 @@ export class CellRegisters extends Component {
           >
             <AgGridReact
               columnDefs={this.state.columnDefs}
+              context={this.state.context}
               defaultColDef={this.state.defaultColDef}
               onGridReady={this.onGridReady}
               rowData={this.state.rowData}

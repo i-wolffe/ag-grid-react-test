@@ -18,8 +18,10 @@ import CellRegisters from '../components/tables/CellRegisters';
 export const Register = (props) => {
   const { type,method,id } = useParams() // register/(cell/auto)/(add/edit)
   const [isReset,setIsReset] = useState(["none",false])
+  const [StateMethod,setStateMethod] = useState(method)
   const [CellAreas,setCellAreas] = useState(props.cellAreas)
   const [CellNames,setCellNames] = useState(props.cellNames)
+  const [ActionData,setActionData] = useState(['',{}])
   let queryAreas = async () => {
     console.info('Fetching Areas')
     await axios.get("http://localhost:8800/cellAreas").then(response => {
@@ -33,12 +35,6 @@ export const Register = (props) => {
         props.setCellNames(response.data)
         setCellNames(response.data)
       })
-  }
-  let postCell = async (e,method,data) => {
-
-  }
-  let resetFields = () => {
-    // When tab changes, 
   }
   let handleTabChange = (ev) => {
     let target = ev.target
@@ -60,6 +56,11 @@ export const Register = (props) => {
   } else {
     console.log('Cells already fetched')
   }
+  let setData = (ans) => {
+    console.log(ans)
+    setStateMethod(ans.action)
+    setActionData(ans.data)
+  }
   return (
     <div className="Tab-container">
       {/* Crud conectado a una base de datos para 
@@ -79,11 +80,17 @@ export const Register = (props) => {
               reset={isReset} 
               CellAreas={CellAreas}
               CellNames={CellNames}
+              ActionData={ActionData}
+              StateMethod={StateMethod}
             />
           </div>
           <div className="Half-content">
-            <h4>Delete</h4>
-            <CellRegisters />
+            <h4>Celdas</h4>
+            <CellRegisters
+              props={props}
+              method={method}
+              setData={(value) => setData(value)}
+            />
           </div>
         </div>
       </Tab>

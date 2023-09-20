@@ -14,6 +14,7 @@ export class CellForm extends Component {
 			CellModel: "",
 			CellPzas: "",
 			CellOperators: "",
+      LoadedData: false,
 			Validated: false,
       CellAreas: this.props.CellAreas,
       CellNames: this.props.CellNames,
@@ -44,12 +45,16 @@ export class CellForm extends Component {
   componentDidUpdate() {
     let isReset = this.props.reset
 		console.log('UPDATE ->',this.props.reset)
+		console.log('method ->',this.props.StateMethod)
     if (isReset[0] === "cell") {
       if (!isReset[1]) {
         this.setState({
           Validated: isReset[1]
         })
       }
+    }
+    if (this.props.StateMethod !== undefined && this.props.StateMethod !== 'add' && !this.state.LoadedData) {
+      console.warn(this.props.ActionData)
     }
 	}
   async setArea (e) {
@@ -72,6 +77,7 @@ export class CellForm extends Component {
           required
           id="area-selector"
           placeholder="Ex. OSHAWA 2"
+          defaultValue="--"
           onChange={ (e) => this.setArea(e.target) }
           onClick={ (e) => {this.setState({CellAreas: this.props.CellAreas})}}
           style={{margin: 'auto'}}

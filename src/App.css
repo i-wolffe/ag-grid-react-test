@@ -462,6 +462,13 @@ table {
   display: grid;
 }
 
+.Table-buttons {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
 .ag-cell-value {
   /* overflow:inherit !important; */
   font-size: 12px !important;
