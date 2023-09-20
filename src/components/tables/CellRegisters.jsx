@@ -30,9 +30,11 @@ export class CellRegisters extends Component {
     }
   }
   parentSetAction(action,index) {
-    console.log('SETTING: ->',action,index)
-    console.log(this.state.Data[parseInt(index)])
-    this.props.setData({action: action, data: this.state.Data[parseInt(index)]})
+    // console.log('SETTING: ->',action,index)
+    // console.log(this.state.Data[parseInt(index)])
+    this.props.setActionData(this.state.Data[parseInt(index)])
+    this.props.setLoadedData(false)
+    this.props.setStateMethod(action)
   }
   processData(dataArr) {
     dataArr.forEach((element,index) => {

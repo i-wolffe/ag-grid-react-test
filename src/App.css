@@ -295,6 +295,45 @@ p.Info-field {
   width: 50%;
   padding-top: 1rem;
 }
+.Half-content-l {
+  width: 60%;
+  padding-top: 1rem;
+}
+.Half-content-s {
+  width: 40%;
+  padding-top: 1rem;
+  padding-left: 1rem;
+}
+
+.Half-title {
+  justify-content: space-evenly !important;
+  padding: 0.5rem;
+}
+
+.background-header {
+  border-bottom: none !important;
+  border-top-right-radius: 15px !important;
+  border-top-left-radius: 15px !important;
+}
+
+.background-form {
+  padding: 10px;
+  border-top: none !important;
+  border-bottom-right-radius: 15px !important;
+  border-bottom-left-radius: 15px !important;
+}
+.background-form-Agregar {
+  background-color: rgba(147, 219, 119, 0.856) !important;
+  border: 4px solid rgba(7, 173, 2, 0.671);
+}
+.background-form-Modificar {
+  background-color: rgba(119, 182, 219, 0.856) !important;
+  border: 4px solid rgba(5, 72, 160, 0.671);
+}
+.background-form-Eliminar {
+  background-color: rgba(219, 119, 119, 0.856) !important;
+  border: 4px solid rgba(255, 0, 0, 0.671);
+}
 
 .Form-field {
   margin: auto;

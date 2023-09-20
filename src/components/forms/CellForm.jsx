@@ -9,27 +9,30 @@ export class CellForm extends Component {
   constructor(props) {
 		super(props);
 		this.state = {
-			CellName: "",
-			CellArea: "",
-			CellModel: "",
-			CellPzas: "",
-			CellOperators: "",
-      LoadedData: false,
+			CellName: this.props.ActionData.cell || "",
+			CellArea: this.props.ActionData.area || "",
+			CellModel: this.props.ActionData.name || "",
+			CellPzas: this.props.ActionData.pzas || "",
+			CellOperators: this.props.ActionData.ops || "",
+      Data: this.props.ActionData,
+      StateMethod: this.props.StateMethod,
+      LoadedData: this.props.LoadedData,
 			Validated: false,
       CellAreas: this.props.CellAreas,
       CellNames: this.props.CellNames,
 		};
 	}
   async componentDidMount() {
-    // console.log(this.props)
-    // console.log('info -> method',this.props.method)
-    // console.log('info state -> area',this.state.CellAreas)
-    // console.log('info props -> area',this.props.CellAreas)
-    // console.log('info -> name',this.state.CellNames)
-		if (this.props.method !== "add" && this.props.method !== "") {
-			//Load data from db with the id
-			let id = this.props.id;
-		}
+    console.error('------> MOUNT ->',this.state)
+    // // console.log('method ->',this.props.StateMethod)
+    // // console.log('Data ->',this.props.ActionData)
+    // // console.info('loaded ->',this.state.LoadedData)
+    // // console.info('loadedPROP ->',this.props.LoadedData)
+    // // console.warn('warn -> name',this.state.CellNames)
+		// if (this.props.method !== "add" && this.props.method !== "") {
+		// 	//Load data from db with the id
+		// 	let id = this.props.id;
+		// }
 	}
 	async handleSubmit(ev) {
 		let form = ev.currentTarget;
@@ -42,45 +45,43 @@ export class CellForm extends Component {
 			Validated: true,
 		});
 	}
-  componentDidUpdate() {
-    let isReset = this.props.reset
-		console.log('UPDATE ->',this.props.reset)
-		console.log('method ->',this.props.StateMethod)
-    if (isReset[0] === "cell") {
-      if (!isReset[1]) {
-        this.setState({
-          Validated: isReset[1]
-        })
-      }
+  async componentDidUpdate() {
+    // only if it is MODIFICAR
+    console.warn(this.props.LoadedData,'------> UPDATE ->',this.state)
+    console.log('Data ->',this.props.ActionData)
+    if (this.props.ActionData !== this.state.Data || this.state.StateMethod !== this.props.StateMethod) {
+      let d = this.props.ActionData
+      this.setState({
+        CellName: d.cell,
+        CellArea: d.area,
+        CellModel: d.name,
+        CellPzas: d.pzas,
+        CellOperators: d.ops,
+        Data: d,
+        LoadedData: true,
+        StateMethod: this.props.StateMethod
+      })
+      console.log('Enter condition:',d)
     }
-    if (this.props.StateMethod !== undefined && this.props.StateMethod !== 'add' && !this.state.LoadedData) {
-      console.warn(this.props.ActionData)
-    }
-	}
-  async setArea (e) {
-    this.setState({
-      CellArea: e.value,
-      CellNames: this.props.CellNames
-    })
-  }
-  async setCell (e) {
-    this.setState({
-      CellName: e.value 
-    })
   }
   render() {
-    return <Form noValidate validated={this.state.Validated} onSubmit={(e) => this.handleSubmit(e)}>
+    return <Form 
+    noValidate validated={this.state.Validated} 
+    onSubmit={(e) => this.handleSubmit(e)}
+    className={`background-form-${this.state.StateMethod} background-form`}
+    >
     <Row>
       <Form.Group as={Col} md="6" className='Form-field' controlId='cell-area'>
         <Form.Label>Area de Celda:</Form.Label>
         <Form.Select
+          disabled={this.state.StateMethod === 'Eliminar'}
           required
           id="area-selector"
           placeholder="Ex. OSHAWA 2"
-          defaultValue="--"
-          onChange={ (e) => this.setArea(e.target) }
-          onClick={ (e) => {this.setState({CellAreas: this.props.CellAreas})}}
           style={{margin: 'auto'}}
+          onClick={ (e) => {this.setState({CellAreas: this.props.CellAreas})}}
+          onChange={ (value) => this.setState({ CellArea: value }) }
+          value={this.state.CellArea}
         >
           {
             this.state.CellAreas.map((area,idx) => {
@@ -92,12 +93,13 @@ export class CellForm extends Component {
       <Form.Group  as={Col} md="6" className='Form-field' controlId='cell-group'>
         <Form.Label>Grupo de Celda:</Form.Label>
         <Form.Select
+          disabled={this.state.StateMethod === 'Eliminar'}
           required
           id="cell-selector"
           placeholder="Ex. A1"
-          defaultValue="--"
-          onChange={ (e) => this.setCell(e.target) }
           style={{margin: 'auto'}}
+          onChange={ (value) => this.setState({ CellName: value }) }
+          value={this.state.CellName}
         >
           {
             this.state.CellNames.map((cell,idx) => {
@@ -114,10 +116,12 @@ export class CellForm extends Component {
     <Form.Group className='Form-field' controlId='cell-model'>
       <Form.Label>Nombre del Modelo:</Form.Label>
       <Form.Control 
+        disabled={this.state.StateMethod === 'Eliminar'}
         required
         type='text'
         placeholder='Ex. 33-G-78279912'
-        defaultValue=''
+        onChange={ (value) => this.setState({ CellModel: value }) }
+        value={this.state.CellModel}
       />
     <Form.Control.Feedback type="invalid">
       Por favor ingresa un valor válido
@@ -127,10 +131,12 @@ export class CellForm extends Component {
       <Form.Group as={Col} md="6" className='Form-field' controlId='cell-pzas'>
         <Form.Label>Piezas por hora:</Form.Label>
         <Form.Control 
+          disabled={this.state.StateMethod === 'Eliminar'}
           required
           type='number'
           placeholder='Ex. 66'
-          defaultValue=''
+          onChange={ (value) => this.setState({ CellPzas: value }) }
+          value={this.state.CellPzas}
         />
         <Form.Control.Feedback type="invalid">
           Las piezas por hora deben ser un número
@@ -139,10 +145,12 @@ export class CellForm extends Component {
       <Form.Group as={Col} md="6" className='Form-field' controlId='cell-operators'>
         <Form.Label>Número de Operadores:</Form.Label>
         <Form.Control 
+          disabled={this.state.StateMethod === 'Eliminar'}
           required
           type='number'
           placeholder='Ex. 4'
-          defaultValue=''
+          onChange={ (value) => this.setState({ CellOperators: value }) }
+          value={this.state.CellOperators}
         />
         <Form.Control.Feedback type="invalid">
           Por favor ingresa un valor válido
@@ -150,10 +158,27 @@ export class CellForm extends Component {
       </Form.Group>
     </Row>
     <Form.Group className='Form-field' controlId='cell-submit'>
-      <Button variant="outline-success" type="submit">Enviar</Button>
+      <Button 
+        type="submit"
+        variant={parseBootstrapClass(this.state.StateMethod)} 
+      >
+        {this.state.StateMethod}
+      </Button>
     </Form.Group>
   </Form>
   }
+}
+
+let parseBootstrapClass = (method) => {
+  console.log(method)
+  let retClass = ''
+  switch(method.toString()){
+    case 'Eliminar': retClass = 'outline-danger';break;
+    case 'Agregar': retClass = 'outline-success';break;
+    case 'Modificar': retClass = 'outline-primary';break;
+    default: retClass = 'outline-secondary';break;
+  }
+  return retClass;  
 }
 
 export default CellForm;

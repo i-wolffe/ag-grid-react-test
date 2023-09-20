@@ -11,22 +11,22 @@ export default class OptionsRenderer extends Component {
     this.invokeSetAction = this.invokeSetAction.bind(this)
     // bind with parent method
   }
-  invokeSetAction (e,action){
-    this.props.context.componentParent.parentSetAction([action],[this.state.Value])
+  invokeSetAction (action){
+    this.props.context.componentParent.parentSetAction(action,[this.state.Value])
   }
   render() {
     return <div className="Table-buttons">
       <Button
         id={`edit-item-cell-${0+1}`}
         variant='outline-primary'
-        onClick={(e) => this.invokeSetAction(e,`edit`)}
+        onClick={(e) => this.invokeSetAction('Modificar')}
       >
         <BiEdit />
       </Button>
       <Button
         id={`remove-item-${0+1}`}
         variant='outline-danger'
-        onClick={(e) => this.invokeSetAction(e,`delete`)}
+        onClick={(e) => this.invokeSetAction('Eliminar')}
       >
         <BiTrash />
       </Button>

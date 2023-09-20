@@ -27,7 +27,7 @@ export const Home = (props) => {
         </Button>
       </div>
       <div className="Card-container d-flex-r">
-          <ActionCard to="/register/cell/add">
+          <ActionCard to="/register/cell/Agregar">
             <h2>Registro de Celdas</h2>
             <GiMechanicalArm />
             <BiSend />
