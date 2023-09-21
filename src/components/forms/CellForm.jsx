@@ -47,7 +47,7 @@ export class CellForm extends Component {
 	}
   async componentDidUpdate() {
     // only if it is MODIFICAR
-    console.warn(this.props.LoadedData,'------> UPDATE ->',this.state)
+    console.info(this.props.LoadedData,'------> UPDATE ->',this.state)
     console.log('Data ->',this.props.ActionData)
     if (this.props.ActionData !== this.state.Data || this.state.StateMethod !== this.props.StateMethod) {
       let d = this.props.ActionData
@@ -61,7 +61,7 @@ export class CellForm extends Component {
         LoadedData: true,
         StateMethod: this.props.StateMethod
       })
-      console.log('Enter condition:',d)
+      console.warn('Enter condition:',d)
     }
   }
   render() {
@@ -80,7 +80,7 @@ export class CellForm extends Component {
           placeholder="Ex. OSHAWA 2"
           style={{margin: 'auto'}}
           onClick={ (e) => {this.setState({CellAreas: this.props.CellAreas})}}
-          onChange={ (value) => this.setState({ CellArea: value }) }
+          onChange={ (e) => this.setState({ CellArea: e.target.value }) }
           value={this.state.CellArea}
         >
           {
@@ -98,7 +98,7 @@ export class CellForm extends Component {
           id="cell-selector"
           placeholder="Ex. A1"
           style={{margin: 'auto'}}
-          onChange={ (value) => this.setState({ CellName: value }) }
+          onChange={ (e) => this.setState({ CellName: e.target.value }) }
           value={this.state.CellName}
         >
           {
@@ -120,7 +120,7 @@ export class CellForm extends Component {
         required
         type='text'
         placeholder='Ex. 33-G-78279912'
-        onChange={ (value) => this.setState({ CellModel: value }) }
+        onChange={ (e) => this.setState({ CellModel: e.target.value }) }
         value={this.state.CellModel}
       />
     <Form.Control.Feedback type="invalid">
@@ -134,8 +134,9 @@ export class CellForm extends Component {
           disabled={this.state.StateMethod === 'Eliminar'}
           required
           type='number'
+          min={1}
           placeholder='Ex. 66'
-          onChange={ (value) => this.setState({ CellPzas: value }) }
+          onChange={ (e) => this.setState({ CellPzas: e.target.value }) }
           value={this.state.CellPzas}
         />
         <Form.Control.Feedback type="invalid">
@@ -147,9 +148,10 @@ export class CellForm extends Component {
         <Form.Control 
           disabled={this.state.StateMethod === 'Eliminar'}
           required
+          min={1}
           type='number'
           placeholder='Ex. 4'
-          onChange={ (value) => this.setState({ CellOperators: value }) }
+          onChange={ (e) => this.setState({ CellOperators: e.target.value }) }
           value={this.state.CellOperators}
         />
         <Form.Control.Feedback type="invalid">

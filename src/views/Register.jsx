@@ -19,7 +19,7 @@ import axios from 'axios';
 import CellRegisters from '../components/tables/CellRegisters';
 
 
-export const Register = (props) => {
+export const Register = (props, {navigation}) => {
   const { type,method,id } = useParams() // register/(cell/auto)/(add/edit)
   const [isReset,setIsReset] = useState(["none",false])
   const [StateMethod,setStateMethod] = useState(method)
@@ -27,6 +27,7 @@ export const Register = (props) => {
   const [CellNames,setCellNames] = useState(props.cellNames)
   const [ActionData,setActionData] = useState({})
   const [LoadedData,setLoadedData] = useState(true)
+
   let queryAreas = async () => {
     console.info('Fetching Areas')
     await axios.get("http://localhost:8800/cellAreas").then(response => {
@@ -119,7 +120,7 @@ export const Register = (props) => {
                   <span
                     id='close-form'
                     variant='outline-secondary'
-                    className='d-flex'
+                    className='d-flex close-form'
                     onClick={() => setStateMethod(null)}
                     >
                     <AiOutlineCloseSquare />
