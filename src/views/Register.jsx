@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { unstable_usePrompt as Prompt } from "react-router-dom";
 
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
@@ -27,7 +28,7 @@ export const Register = (props, {navigation}) => {
   const [CellNames,setCellNames] = useState(props.cellNames)
   const [ActionData,setActionData] = useState({})
   const [LoadedData,setLoadedData] = useState(true)
-
+  
   let queryAreas = async () => {
     console.info('Fetching Areas')
     await axios.get("http://localhost:8800/cellAreas").then(response => {

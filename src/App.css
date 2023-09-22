@@ -320,16 +320,16 @@ p.Info-field {
 
 .background-header {
   border-bottom: none !important;
-  border-top-right-radius: 15px !important;
-  border-top-left-radius: 15px !important;
+  border-top-right-radius: 8px !important;
+  border-top-left-radius: 8px !important;
 }
 
 .background-form {
   padding: 10px;
   width: 100%;
   border-top: none !important;
-  border-bottom-right-radius: 15px !important;
-  border-bottom-left-radius: 15px !important;
+  border-bottom-right-radius: 8px !important;
+  border-bottom-left-radius: 8px !important;
 }
 .background-form-Agregar {
   background-color: rgba(205, 255, 182, 0.911) !important;
