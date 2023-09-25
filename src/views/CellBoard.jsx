@@ -5,6 +5,8 @@ import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
+import Toast from 'react-bootstrap/Toast';
+import ToastContainer from 'react-bootstrap/ToastContainer';
 
 import AppInfo from '../components/AppInfo';
 
@@ -30,11 +32,124 @@ export class CellBoard extends Component {
       ActiveTarget: 1,
       isLocked: false,
       ShiftHours: [],
+      showToast: false,
     }
   } 
-  formatHours(time) {
 
+  async componentDidMount() {
+
+    // only executes on firstRender
+    if (this.state.ListTimeReasons.length === 0) {
+      await axios.get("http://localhost:8800/listMotivos").then(response => {
+      this.setState({
+        ListTimeReasons: response.data,
+      });
+      this.props.setCellModels(response.data)
+    });
+    console.log('Motivos loaded from DB')
+    // if (false) { // Condition to toggle lazy load usage
+      // get ALL areas and ALL cells
+      // Filter data
+      // Turn on LAZY FLAG
+    } else {
+      console.log('Motivos existed')
+    }
+    // Add query to DB  
+    // if(this.props.selectedArea !== '' && this.props.selctedName !== '') {
+    //   //Db call for models
+    // } else {
+    //   console.log('missing data')
+    // }
   }
+
+  async componentDidUpdate() {
+    // Verify state variable to see if the query has to be made
+    if (this.state.CanFetchModels) {
+      console.log('FETCHING MODELS for -> ',this.state.SelectedName)
+      this.setState({
+        CanFetchModels: false
+      })
+      this.fetchModels()
+    }
+  }
+
+  async handleShiftSelection(e) {
+    let elem = e.target
+    let targetId = elem.getAttribute('id')
+    console.log('Shift',targetId)
+    if (targetId != null){
+      // this.setState({
+      //   TableShift: parseInt(targetId)
+      // })
+      this.generateTable([0,parseInt(targetId)])
+    }
+  }
+
+  async handleHourSelection(e) {
+    // console.log('ENTER FORM CLICK')
+    let elem = e.target
+    let targetId = elem.getAttribute('id')
+    console.log('Hour-group',targetId)
+    // this.setState({
+    //   TableHours: parseInt(targetId)
+    // })
+    this.generateTable([parseInt(targetId),0])
+    if(parseInt(targetId) === 12) {
+      document.getElementById('3').setAttribute('disabled',true)
+    } else {
+      document.getElementById('3').removeAttribute('disabled',false)
+    }
+  }
+
+  async fetchModels() {
+    //verify info on the state -- done on caller
+    // await axios -> work on endpoint
+    await axios.get("http://localhost:8800/modelsByCell/?area=" + this.state.SelectedArea + '&name=' + this.state.SelectedName).then(response => {
+      console.log('-',response.data);
+      this.setState({
+        AvailableModels: response.data,
+        SelectedModel: ''
+      });
+    });
+    // list the models on the dropdown
+  }
+
+  async getProduction() {
+    //verify info on the state -- done on caller
+    // await axios -> work on endpoint
+    await axios.get("http://localhost:8800/modelsByCell/?area=" + this.state.SelectedArea + '&name=' + this.state.SelectedName).then(response => {
+      console.log('-',response.data);
+      this.setState({
+        AvailableModels: response.data,
+      });
+    });
+    // list the models on the dropdown
+  }
+
+  async SelectModel(e) {
+    this.setState({
+      SelectedModel: e.value
+    })
+    console.log('Selected Model')
+    this.generateTable([this.state.TableHours,this.state.TableShift])
+    this.overwriteModel(e.value)
+    this.getModelInfo(e.value)
+  }
+
+  triggerScan(e) {
+    // Write from Scanner on the selected input and then block it? REMEMBER Scanner ends with ENTER -> check ASCII
+  }
+
+  overwriteModel(value){
+    let selectors = document.getElementsByClassName("inner-model-selector")
+    Array.from(selectors).forEach(element => {
+      element.value = value
+    })
+  }
+
+  formatHours(time) {
+  }
+
   genHours2(shift,mode) {
     let myHours2 = []
     if (parseInt(mode) === 12) {
@@ -115,103 +230,7 @@ export class CellBoard extends Component {
     }
     return myHours2
   }
-  async componentDidMount() {
 
-    // only executes on firstRender
-    if (this.state.ListTimeReasons.length === 0) {
-      await axios.get("http://localhost:8800/listMotivos").then(response => {
-      this.setState({
-        ListTimeReasons: response.data,
-      });
-      this.props.setCellModels(response.data)
-    });
-    console.log('Motivos loaded from DB')
-    // if (false) { // Condition to toggle lazy load usage
-      // get ALL areas and ALL cells
-      // Filter data
-      // Turn on LAZY FLAG
-    } else {
-      console.log('Motivos existed')
-    }
-    // Add query to DB  
-    // if(this.props.selectedArea !== '' && this.props.selctedName !== '') {
-    //   //Db call for models
-    // } else {
-    //   console.log('missing data')
-    // }
-  }
-  componentDidUpdate() {
-    // Verify state variable to see if the query has to be made
-    if (this.state.CanFetchModels) {
-      console.log('FETCHING MODELS for -> ',this.state.SelectedName)
-      this.setState({
-        CanFetchModels: false
-      })
-      this.fetchModels()
-    }
-  }
-  triggerScan(e) {
-    // Write from Scanner on the selected input and then block it? REMEMBER Scanner ends with ENTER -> check ASCII
-  }
-  updateText(e){
-    // Each keystroke perhaps? maybe unnecessary if it will have the scanner
-  }
-  async handleShiftSelection(e) {
-    let elem = e.target
-    let targetId = elem.getAttribute('id')
-    console.log('Shift',targetId)
-    if (targetId != null){
-      // this.setState({
-      //   TableShift: parseInt(targetId)
-      // })
-      this.generateTable([0,parseInt(targetId)])
-    }
-  }
-  async handleHourSelection(e) {
-    // console.log('ENTER FORM CLICK')
-    let elem = e.target
-    let targetId = elem.getAttribute('id')
-    console.log('Hour-group',targetId)
-    // this.setState({
-    //   TableHours: parseInt(targetId)
-    // })
-    this.generateTable([parseInt(targetId),0])
-    if(parseInt(targetId) === 12) {
-      document.getElementById('3').setAttribute('disabled',true)
-    } else {
-      document.getElementById('3').removeAttribute('disabled',false)
-    }
-  }
-  async fetchModels() {
-    //verify info on the state -- done on caller
-    // await axios -> work on endpoint
-    await axios.get("http://localhost:8800/modelsByCell/?area=" + this.state.SelectedArea + '&name=' + this.state.SelectedName).then(response => {
-      console.log('-',response.data);
-      this.setState({
-        AvailableModels: response.data,
-        SelectedModel: ''
-      });
-    });
-    // list the models on the dropdown
-  }
-  async getProduction() {
-    //verify info on the state -- done on caller
-    // await axios -> work on endpoint
-    await axios.get("http://localhost:8800/modelsByCell/?area=" + this.state.SelectedArea + '&name=' + this.state.SelectedName).then(response => {
-      console.log('-',response.data);
-      this.setState({
-        AvailableModels: response.data,
-      });
-    });
-    // list the models on the dropdown
-  }
-  async SelectModel(e) {
-    this.setState({
-      SelectedModel: e.value
-    })
-    this.generateTable([this.state.TableHours,this.state.TableShift])
-    this.getModelInfo(e.value)
-  }
   getModelInfo(modelName) {
     // find the index of the model information
     let obj = {}
@@ -230,9 +249,11 @@ export class CellBoard extends Component {
     // read Table parameters
     // Modify table
   }
+
   modifyTableParams() {
     console.log('MOD TABLE PARAMS', this.state)
   }
+
   generateTable (modifications=[0,0]) { // modifications[hour,shift]
     // console.log('Building table -> ',modifications)
     let returnObj = []
@@ -262,7 +283,7 @@ export class CellBoard extends Component {
               ?
                 <Button
                   id={`split-cell-${index+1}`}
-                  variant='secondary'
+                  variant='warning'
                   onClick={(e) => this.splitCell(e,`split-cell-${index+1}`,`row-${index+1}`,hour,index)}
                 >
                   <PiSplitVerticalLight />
@@ -287,7 +308,21 @@ export class CellBoard extends Component {
           </div>
         </td>
         <td id={`hours-${index+1}`} >{hour[0]}-{hour[1]}</td>
-        <td id={`model-${index+1}`} >{this.state.SelectedModel}</td>
+        <td id={`model-${index+1}`} >
+          {/* {this.state.SelectedModel} */}
+          <Form.Select aria-label="Model select" 
+            type="text"
+            className="inner-model-selector"
+            id={`inner-model-selector-${index+1}`}
+            defaultValue={this.state.SelectedModel}
+          >
+            {
+              this.state.AvailableModels.map((model,idx) => {
+                return <option key={`model-${idx}`} value={model.Nombre}>{model.Nombre}</option>
+              })
+            }
+          </Form.Select>
+        </td>
         <td id={`pzas-${index+1}`} ></td>
         <td id={`acum-${index+1}`} ></td>
         <td id={`deadt-${index+1}`} ></td>
@@ -332,6 +367,7 @@ export class CellBoard extends Component {
       isLocked: true
     })
   }
+
   joinCell(e,self,parent,hour,index) {
     e.preventDefault()
     console.log('join ->',index)
@@ -346,6 +382,7 @@ export class CellBoard extends Component {
       ShiftHours: myHours
     })
   }
+
   lockTable(e) {
     e.preventDefault()
     let prev = this.state.isLocked
@@ -354,6 +391,7 @@ export class CellBoard extends Component {
     })
     console.warn(!prev)
   }
+
   fillTable(dataList) {
     // reset table
     let tabWrapper = document.getElementById('Table-body-container')
@@ -364,9 +402,37 @@ export class CellBoard extends Component {
     //
     console.log(hourArr)
   }
+
   render() {
     return (
       <div className="Content-container">
+        <div 
+          className="toast-wrap"
+          style={{zIndex: this.state.showToast ? 100 : -100}}
+        >
+          <ToastContainer
+            position='bottom-end'
+          >
+            <Toast 
+              // onClose={() => this.setState({showToast: false})} 
+              show={this.state.showToast} 
+              delay={3000} autohide
+              className='Success-Toast'
+            >
+              <Toast.Header 
+                closeButton={true}
+                className='background-form-Agregar background-header'
+              >
+                <strong className="me-auto">¡Éxito!</strong>
+                <small>menos de 1 min</small>
+              </Toast.Header>
+              <Toast.Body
+                className='background-form-Agregar background-form'
+              >
+                Datos cargados correctamente.</Toast.Body>
+            </Toast>
+          </ToastContainer>
+        </div>
         {
           this.props.showInfo === '/cell'
           ? 
@@ -423,12 +489,18 @@ export class CellBoard extends Component {
             </Button>
             <Button variant="outline-success Action-button"
               type="button" id="btn-export"
+              className={this.state.isLocked ? "pulse" : ""}
               disabled={!(this.state.isLocked)}
             >
               <TbFileExport/>
             </Button>
             <Dropdown>
-              <Dropdown.Toggle variant="outline-dark Action-button" id="btn-config" disabled={this.state.isLocked}>
+              <Dropdown.Toggle 
+                variant="outline-dark Action-button" 
+                id="btn-config" 
+                className={this.state.isLocked ? "" : "pulse"    }
+                disabled={this.state.isLocked}
+              >
                 <FiSettings />
               </Dropdown.Toggle>
               <Dropdown.Menu>
